@@ -25,7 +25,7 @@ const SignupForm: React.FC = () => {
       onSubmit={(e) => {
         e.preventDefault();
         handleSubmit();
-        router.push("/");
+        router.replace("/home");
       }}
       className="flex flex-col items-center gap-3 bg-auth-background text-slate-900 p-3 w-96 rounded-2xl"
     >
