@@ -1,11 +1,11 @@
 import React from "react";
 import AppLayout from "../components/layout";
+import PlannerDesc from "../components/PlannerDesc";
 
 const Home = () => {
   return (
     <AppLayout>
-      <div>Home</div>
-      <div className="">plans</div>
+      <PlannerDesc />
     </AppLayout>
   );
 };
