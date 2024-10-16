@@ -1,13 +1,9 @@
-// import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";4
 import React from "react";
 import AsideMenu from "./AsideMenu";
+import CalendarView from "./CalendarView";
 
-const AppLayout = ({ children }) => {
-  // const router = useRouter();
-
-  const options = { year: "numeric", month: "2-digit", day: "2-digit" };
-  const currentDate = new Date().toLocaleDateString(undefined, options);
-
+const AppLayout = ({ children }: unknown) => {
   return (
     <main className="flex ">
       <AsideMenu />
@@ -21,8 +17,9 @@ const AppLayout = ({ children }) => {
               placeholder="Search..."
             />
           </label>
-          <span>{currentDate}</span>
-
+          <div className="relative mx-auto">
+            <CalendarView />
+          </div>
           <button>add todo</button>
         </div>
         <div className="bg-gray-100 w-full h-[91.7%]">{children}</div>
