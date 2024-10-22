@@ -3,7 +3,7 @@ import React from "react";
 import AsideMenu from "./AsideMenu";
 import CalendarView from "./CalendarView";
 
-const AppLayout = ({ children }: unknown) => {
+const AppLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <main className="flex ">
       <AsideMenu />
