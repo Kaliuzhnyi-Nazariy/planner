@@ -1,10 +1,21 @@
-import { register, regUser } from "./auth-operations";
+import {
+  deleteAccount,
+  login,
+  logout,
+  register,
+  regUser,
+  resetPassword,
+  resetPasswordReq,
+  updateAcc,
+  UpdatedUser,
+  User,
+} from "./auth-operations";
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface IValue {
   isAuth: boolean;
-  token: string;
+  token: String;
   username: String;
   email: String;
 }
@@ -52,9 +63,60 @@ const authSlice = createSlice({
           console.log(action.payload);
           state.value.username = action.payload.username;
           state.value.email = action.payload.email;
+          state.isLoading = false;
         }
       )
-      .addCase(register.rejected, handleReject);
+      .addCase(register.rejected, handleReject)
+      .addCase(
+        login.fulfilled,
+        (state: initialStateType, action: PayloadAction<User>) => {
+          state.value.isAuth = true;
+          state.value.email = action.payload.email;
+          state.value.username = action.payload.username;
+          state.value.token = action.payload.token;
+          state.isLoading = false;
+        }
+      )
+      .addCase(login.pending, handlePending)
+      .addCase(login.rejected, handleReject)
+      .addCase(resetPasswordReq.pending, handlePending)
+      .addCase(
+        resetPasswordReq.fulfilled,
+        (state: initialStateType, action: PayloadAction<unknown>) => {
+          console.log(action);
+          state.isLoading = false;
+        }
+      )
+      .addCase(resetPasswordReq.rejected, handleReject)
+      .addCase(resetPassword.pending, handlePending)
+      .addCase(
+        resetPassword.fulfilled,
+        (state: initialStateType, action: PayloadAction<unknown>) => {
+          console.log(action);
+          state.isLoading = false;
+        }
+      )
+      .addCase(updateAcc.pending, handlePending)
+      .addCase(
+        updateAcc.fulfilled,
+        (state: initialStateType, action: PayloadAction<UpdatedUser>) => {
+          state.value.email = action.payload.email;
+          state.value.username = action.payload.username;
+          state.isLoading = false;
+        }
+      )
+      .addCase(updateAcc.rejected, handleReject)
+      .addCase(logout.pending, handlePending)
+      .addCase(logout.fulfilled, (state: initialStateType) => {
+        state.value.isAuth = false;
+        state.value.token = "";
+        state.isLoading = false;
+      })
+      .addCase(deleteAccount.pending, handlePending)
+      .addCase(deleteAccount.fulfilled, (state: initialStateType) => {
+        state.isLoading = false;
+      })
+      .addCase(deleteAccount.rejected, handleReject);
   },
 });
 
