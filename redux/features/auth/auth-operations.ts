@@ -18,13 +18,13 @@ type logUser = {
   password: String;
 };
 
-type User = {
+export type User = {
   username: String;
   email: String;
   token: String;
 };
 
-type UpdatedUser = Omit<User, "token">;
+export type UpdatedUser = Omit<User, "token">;
 
 export type newPasswordType = {
   newPassword: String;
@@ -80,16 +80,13 @@ export const resetPasswordReq = createAsyncThunk<
 
 export const resetPassword = createAsyncThunk<
   void,
-  newPasswordType,
+  { id: string; newPasswordValue: newPasswordType },
   { rejectValue: any }
 >(
   "auth/resetPassword",
-  async ({ newPassword, confirmPassword }, thunkAPI: any): Promise<void> => {
+  async ({ id, newPasswordValue }, thunkAPI: any): Promise<void> => {
     try {
-      const res = await axiosInstance.post(`/here_will_be_link`, {
-        newPassword,
-        confirmPassword,
-      });
+      const res = await axiosInstance.post(`/${id}`, newPasswordValue);
       return res.data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);
