@@ -3,15 +3,13 @@ import {
   login,
   logout,
   register,
-  regUser,
   resetPassword,
   resetPasswordReq,
   updateAcc,
-  UpdatedUser,
-  User,
 } from "./auth-operations";
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { regUser, UpdatedUser, User } from "./typesOrInterfaces";
 
 interface IValue {
   isAuth: boolean;

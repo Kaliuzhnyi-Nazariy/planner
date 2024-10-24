@@ -1,5 +1,5 @@
 import { authReducer } from "./features/auth/auth-slice";
-const { configureStore } = require("@reduxjs/toolkit");
+import { configureStore } from "@reduxjs/toolkit";
 import {
   FLUSH,
   PAUSE,
@@ -15,13 +15,14 @@ import storage from "redux-persist/lib/storage";
 const persistedAuthConfig = {
   key: "auth",
   storage,
-  whiteList: ["token"],
+  whitelist: ["token"],
 };
 
 const persistedAuth = persistReducer(persistedAuthConfig, authReducer);
 
-const store = configureStore({
+export const store = configureStore({
   reducer: {
+    // auth: authReducer,
     auth: persistedAuth,
   },
   middleware: (getDefaultMiddleware) =>
@@ -34,5 +35,5 @@ const store = configureStore({
 
 export const persistor = persistStore(store);
 
-export type appDispatch = typeof store.dispatch;
+export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;
