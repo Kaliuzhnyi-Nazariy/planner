@@ -1,8 +1,12 @@
 "use client";
 
+import { register } from "@/redux/features/auth/auth-operations";
+import { useAppDispatch } from "@/redux/hooks";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import FormView from "./FormView/FormView";
+import FormInput from "./FormInput/FormInput";
 
 const SignupForm: React.FC = () => {
   const [name, setName] = useState<string>("");
@@ -10,29 +14,35 @@ const SignupForm: React.FC = () => {
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
 
+  const dispatch = useAppDispatch();
   const router = useRouter();
 
   const handleSubmit = () => {
     if (password !== confirmPassword) {
       throw new Error("Passwords are not matched!");
     } else {
-      console.log({ name, email, password, confirmPassword });
+      dispatch(
+        register({
+          username: name,
+          email: email,
+          password: password,
+          confirmPassword: confirmPassword,
+        })
+      );
     }
   };
 
   return (
-    <form
+    <FormView
       onSubmit={(e) => {
         e.preventDefault();
         handleSubmit();
-        router.replace("/home");
+        router.replace("/authorization/login");
       }}
-      className="flex flex-col items-center gap-3 bg-auth-background text-slate-900 p-3 w-96 rounded-2xl"
     >
       <label>
         <p>Name</p>
-        <input
-          className="text-black border-b-2 border-b-orange-500 rounded-lg py-1 px-2 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-orange-500 focus:border-orange-500 placeholder:italic placeholder:text-slate-400 "
+        <FormInput
           type="text"
           onChange={(event) => setName(event.target.value)}
           value={name}
@@ -42,8 +52,7 @@ const SignupForm: React.FC = () => {
       </label>
       <label>
         <p>Email</p>
-        <input
-          className="text-black border-b-2 border-b-orange-500 rounded-lg py-1 px-2 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-orange-500 focus:border-orange-500 placeholder:italic placeholder:text-slate-400 "
+        <FormInput
           type="email"
           onChange={(event) => setEmail(event.target.value)}
           value={email}
@@ -53,8 +62,7 @@ const SignupForm: React.FC = () => {
       </label>
       <label>
         <p>Password</p>
-        <input
-          className="text-black border-b-2 border-b-orange-500 rounded-lg py-1 px-2 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-orange-500 focus:border-orange-500 placeholder:italic placeholder:text-slate-400 "
+        <FormInput
           type="password"
           onChange={(event) => setPassword(event.target.value)}
           value={password}
@@ -64,8 +72,7 @@ const SignupForm: React.FC = () => {
       </label>
       <label>
         <p>Confirm Password</p>
-        <input
-          className="text-black border-b-2 border-b-orange-500 rounded-lg py-1 px-2 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-orange-500 focus:border-orange-500 placeholder:italic placeholder:text-slate-400 "
+        <FormInput
           type="password"
           onChange={(event) => setConfirmPassword(event.target.value)}
           value={confirmPassword}
@@ -87,7 +94,7 @@ const SignupForm: React.FC = () => {
       >
         Sign up
       </button>
-    </form>
+    </FormView>
   );
 };
 

@@ -2,6 +2,8 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import FormView from "./FormView/FormView";
+import FormInput from "./FormInput/FormInput";
 
 const LoginForm = () => {
   const [email, setEmail] = useState<string>("");
@@ -10,36 +12,40 @@ const LoginForm = () => {
   const router = useRouter();
 
   return (
-    <form
+    <FormView
       onSubmit={(e) => {
         e.preventDefault();
         console.log({ email, password });
         router.replace("/home");
       }}
-      className="flex flex-col items-center gap-3 bg-auth-background text-slate-900 p-3 w-96 rounded-2xl"
     >
       <label>
         <p>Email:</p>
-        <input
+        <FormInput
           type="text"
           onChange={(e) => setEmail(e.target.value)}
           value={email}
-          className="text-black border-b-2 border-b-orange-500 rounded-lg py-1 px-2 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-orange-500 focus:border-orange-500 placeholder:italic placeholder:text-slate-400 "
           placeholder="Enter your e-mail"
           required
         />
       </label>
       <label>
         <p>Password:</p>
-        <input
+        <FormInput
           type="password"
           onChange={(e) => setPassword(e.target.value)}
           value={password}
-          className="text-black border-b-2 border-b-orange-500 rounded-lg py-1 px-2 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-orange-500 focus:border-orange-500 placeholder:italic placeholder:text-slate-400 "
           placeholder="Enter your password"
           required
         />
       </label>
+
+      <Link
+        href="/authorization/forgotPassword"
+        className="font-tiny text-[12px] w-[228px] text-gray-500 hover:text-slate-900"
+      >
+        Forgot password
+      </Link>
 
       <Link
         href="/authorization/signup"
@@ -53,7 +59,7 @@ const LoginForm = () => {
       >
         Login
       </button>
-    </form>
+    </FormView>
   );
 };
 
