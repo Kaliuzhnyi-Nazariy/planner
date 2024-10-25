@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 
 const NewPasswordForm = () => {
   const [newPassword, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [confirmNewPassword, setConfirmNewPassword] = useState("");
 
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -19,14 +19,14 @@ const NewPasswordForm = () => {
 
     if (!passwordRecoverID) throw new Error("No request!");
 
-    if (newPassword !== confirmPassword) {
+    if (newPassword !== confirmNewPassword) {
       throw new Error("Passwords do not match");
     }
 
     dispatch(
       resetPassword({
         id: `${passwordRecoverID}`,
-        newPasswordValue: { newPassword, confirmPassword },
+        newPasswordValue: { newPassword, confirmNewPassword },
       })
     );
 
@@ -56,8 +56,8 @@ const NewPasswordForm = () => {
         Confirm new password:
         <FormInput
           type="password"
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          value={confirmPassword}
+          onChange={(e) => setConfirmNewPassword(e.target.value)}
+          value={confirmNewPassword}
           placeholder="input password"
           required
         />
