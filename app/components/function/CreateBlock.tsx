@@ -17,7 +17,7 @@ const CreateBlock = ({ x, y }: CreateBlockProps) => {
     <>
       {x !== undefined || y !== undefined ? (
         <div
-          className="bg-red-600 w-[226px] h-[250px] absolute transform translate-x-[-85%] translate-y-[-58%]"
+          className="bg-red-600 w-[226px] h-[250px] absolute transform translate-x-[-85%] translate-y-[-80%]"
           style={{ top: y, left: x }}
         >
           <div
