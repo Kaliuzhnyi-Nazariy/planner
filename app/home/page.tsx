@@ -1,5 +1,5 @@
 import React from "react";
-import AppLayout from "../components/layout";
+import AppLayout from "../components/layouts/layout";
 import PlannerDesc from "../components/PlannerDesc";
 
 const Home = () => {
