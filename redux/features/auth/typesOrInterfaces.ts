@@ -16,6 +16,7 @@ export type logUser = {
 };
 
 export type User = {
+  id: String;
   username: String;
   email: String;
   token: String;
@@ -25,5 +26,5 @@ export type UpdatedUser = Omit<User, "token">;
 
 export type newPasswordType = {
   newPassword: String;
-  confirmPassword: string;
+  confirmNewPassword: string;
 };

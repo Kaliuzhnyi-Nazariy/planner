@@ -15,11 +15,11 @@ import axios from "axios";
 axios.defaults.baseURL = "https://back-for-planner.onrender.com/api";
 
 const setToken = (token: String) => {
-  axiosInstance.defaults.headers.common.Authorization = `Bearer ${token}`;
+  axios.defaults.headers.common.Authorization = `Bearer ${token}`;
 };
 
 const clearToken = () => {
-  axiosInstance.defaults.headers.common.Authorization = "";
+  axios.defaults.headers.common.Authorization = "";
 };
 
 export const register = createAsyncThunk<
@@ -99,11 +99,12 @@ export const updateAcc = createAsyncThunk<
 
 export const logout = createAsyncThunk<
   void,
-  { id: number },
+  { id: string },
   { rejectValue: any }
 >("auth/logout", async (id, thunkAPI: any): Promise<void> => {
   try {
-    const res = await axios.post(`/users/${id}`);
+    console.log(id);
+    const res = await axios.post(`/users/${id.id}`);
     clearToken();
     return res.data;
   } catch (error: any) {

@@ -45,7 +45,8 @@ const handleReject = (
   action: PayloadAction<initialStateType>
 ) => {
   state.isLoading = false;
-  state.error = action.payload?.error;
+  console.log(action);
+  state.error = action?.payload?.error;
 };
 
 const authSlice = createSlice({
@@ -65,6 +66,7 @@ const authSlice = createSlice({
         }
       )
       .addCase(register.rejected, handleReject)
+      .addCase(login.pending, handlePending)
       .addCase(
         login.fulfilled,
         (state: initialStateType, action: PayloadAction<User>) => {
@@ -75,7 +77,6 @@ const authSlice = createSlice({
           state.isLoading = false;
         }
       )
-      .addCase(login.pending, handlePending)
       .addCase(login.rejected, handleReject)
       .addCase(resetPasswordReq.pending, handlePending)
       .addCase(
