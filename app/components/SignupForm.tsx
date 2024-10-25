@@ -7,6 +7,8 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import FormView from "./FormView/FormView";
 import FormInput from "./FormInput/FormInput";
+import { useSelector } from "react-redux";
+import { selectUserIsLoading } from "@/redux/features/auth/selectors";
 
 const SignupForm: React.FC = () => {
   const [name, setName] = useState<string>("");
@@ -16,6 +18,7 @@ const SignupForm: React.FC = () => {
 
   const dispatch = useAppDispatch();
   const router = useRouter();
+  const isLoading = useSelector(selectUserIsLoading);
 
   const handleSubmit = () => {
     if (password !== confirmPassword) {
@@ -37,7 +40,7 @@ const SignupForm: React.FC = () => {
       onSubmit={(e) => {
         e.preventDefault();
         handleSubmit();
-        router.replace("/authorization/login");
+        // router.replace("/authorization/login");
       }}
     >
       <label>
@@ -88,12 +91,16 @@ const SignupForm: React.FC = () => {
         I already have an account
       </Link>
 
-      <button
-        type="submit"
-        className="px-4 py-2 border-[1px] border-transparent bg-orange-400 hover:bg-orange-500 hover:border-[1px] hover:border-white focus:border-white focus:outline-none text-white rounded-lg"
-      >
-        Sign up
-      </button>
+      {isLoading ? (
+        "Loading..."
+      ) : (
+        <button
+          type="submit"
+          className="px-4 py-2 border-[1px] border-transparent bg-orange-400 hover:bg-orange-500 hover:border-[1px] hover:border-white focus:border-white focus:outline-none text-white rounded-lg"
+        >
+          Sign up
+        </button>
+      )}
     </FormView>
   );
 };
