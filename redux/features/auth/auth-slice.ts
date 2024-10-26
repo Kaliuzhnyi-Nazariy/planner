@@ -2,24 +2,25 @@ import {
   deleteAccount,
   login,
   logout,
+  refreshUser,
   register,
   resetPassword,
   resetPasswordReq,
   updateAcc,
 } from "./auth-operations";
 
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, current, PayloadAction } from "@reduxjs/toolkit";
 import { regUser, UpdatedUser, User } from "./typesOrInterfaces";
 
 interface IValue {
   isAuth: boolean;
-  token: String;
   username: String;
   email: String;
 }
 
-type initialStateType = {
+export type initialStateType = {
   value: IValue;
+  token: String;
   isLoading: boolean;
   error: null | string;
 };
@@ -73,8 +74,9 @@ const authSlice = createSlice({
           state.value.isAuth = true;
           state.value.email = action.payload.email;
           state.value.username = action.payload.username;
-          state.value.token = action.payload.token;
+          state.token = action.payload.token;
           state.isLoading = false;
+          console.log(current(state));
         }
       )
       .addCase(login.rejected, handleReject)
@@ -108,14 +110,25 @@ const authSlice = createSlice({
       .addCase(logout.pending, handlePending)
       .addCase(logout.fulfilled, (state: initialStateType) => {
         state.value.isAuth = false;
-        state.value.token = "";
+        state.token = "";
         state.isLoading = false;
       })
       .addCase(deleteAccount.pending, handlePending)
       .addCase(deleteAccount.fulfilled, (state: initialStateType) => {
         state.isLoading = false;
       })
-      .addCase(deleteAccount.rejected, handleReject);
+      .addCase(deleteAccount.rejected, handleReject)
+      .addCase(refreshUser.pending, handlePending)
+      .addCase(
+        refreshUser.fulfilled,
+        (state: initialStateType, action: PayloadAction<regUser>) => {
+          state.value.email = action.payload.email;
+          state.value.username = action.payload.username;
+          state.value.isAuth = true;
+          state.isLoading = false;
+        }
+      )
+      .addCase(refreshUser.rejected, handleReject);
   },
 });
 

@@ -28,3 +28,9 @@ export type newPasswordType = {
   newPassword: String;
   confirmNewPassword: string;
 };
+
+export interface IRecieveToken {
+  auth: {
+    token: String;
+  };
+}

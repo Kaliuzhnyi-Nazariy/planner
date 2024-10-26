@@ -1,7 +1,7 @@
 // import { axiosInstance } from "../../axios.config";
-const { axiosInstance } = require("../../axios.config");
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
+  IRecieveToken,
   logUser,
   newPasswordType,
   regUser,
@@ -103,7 +103,6 @@ export const logout = createAsyncThunk<
   { rejectValue: any }
 >("auth/logout", async (id, thunkAPI: any): Promise<void> => {
   try {
-    console.log(id);
     const res = await axios.post(`/users/${id.id}`);
     clearToken();
     return res.data;
@@ -123,3 +122,21 @@ export const deleteAccount = createAsyncThunk<void, void, { rejectValue: any }>(
     }
   }
 );
+
+export const refreshUser = createAsyncThunk<
+  regUser,
+  void,
+  { rejectValue: any; state: IRecieveToken }
+>("auth/refresh", async (_, thunkAPI) => {
+  const state = thunkAPI.getState();
+  const persistedToken = state.auth.token;
+  if (!persistedToken) return thunkAPI.rejectWithValue("Unable to fetch user!");
+
+  try {
+    setToken(persistedToken);
+    const res = await axios.get("/users/current");
+    return res.data;
+  } catch (error: any) {
+    return thunkAPI.rejectWithValue(error.message);
+  }
+});

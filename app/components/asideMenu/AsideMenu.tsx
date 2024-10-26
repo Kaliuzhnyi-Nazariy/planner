@@ -1,11 +1,19 @@
 "use client";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect } from "react";
 import { FaHome, FaUser } from "react-icons/fa";
 import LogOutButton from "./LogOutButton";
+import { useAppDispatch } from "@/redux/hooks";
+import { refreshUser } from "@/redux/features/auth/auth-operations";
 
 const AsideMenu = () => {
   const router = useRouter();
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(refreshUser());
+  }, [dispatch]);
 
   return (
     <aside className="bg-black text-white w-20 flex flex-col items-center h-[100vh]">
