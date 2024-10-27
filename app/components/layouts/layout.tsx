@@ -2,6 +2,7 @@
 import React from "react";
 import AsideMenu from "../asideMenu/AsideMenu";
 import CalendarView from "../CalendarView";
+import DashboardLayoutAddTaskButton from "./DashboardLayoutAddTaskButton/DashboardLayoutAddTaskButton";
 
 const AppLayout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -17,10 +18,10 @@ const AppLayout = ({ children }: { children: React.ReactNode }) => {
               placeholder="Search..."
             />
           </label>
-          <div className="relative mx-auto">
+          <div className="relative">
             <CalendarView />
           </div>
-          <button>add todo</button>
+          <DashboardLayoutAddTaskButton />
         </div>
         <div className="bg-gray-100 w-full h-[91.68%]">{children}</div>
       </div>
