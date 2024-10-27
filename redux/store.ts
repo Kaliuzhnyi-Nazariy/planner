@@ -11,6 +11,7 @@ import {
 import persistReducer from "redux-persist/es/persistReducer";
 import persistStore from "redux-persist/es/persistStore";
 import storage from "redux-persist/lib/storage";
+import { markerReducer } from "./features/MarkersPlan/markers-slice";
 
 const persistedAuthConfig = {
   key: "auth",
@@ -23,6 +24,7 @@ const persistedAuth = persistReducer(persistedAuthConfig, authReducer);
 export const store = configureStore({
   reducer: {
     auth: persistedAuth,
+    markers: markerReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
