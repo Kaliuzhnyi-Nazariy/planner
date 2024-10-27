@@ -9,7 +9,15 @@ export interface Marker {
 export type Markers = Array<Marker>;
 
 export interface IInitialState {
-  tasks: Marker;
+  tasks: Markers;
   isLoading: boolean;
   error: string | null;
 }
+
+export type newMarkerData = {
+  title: string;
+  taskText: string;
+  date: string;
+  x?: number;
+  y?: number;
+};
