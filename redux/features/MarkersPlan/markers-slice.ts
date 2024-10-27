@@ -1,15 +1,14 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { getAllTasks } from "./marker-operations";
+import { createSlice, current, PayloadAction } from "@reduxjs/toolkit";
+import {
+  addTask,
+  deleteMarker,
+  getAllTasks,
+  updateTask,
+} from "./marker-operations";
 import { IInitialState, Marker, Markers } from "./typesOrInterfaces";
 
 const initialState = {
-  tasks: {
-    _id: "",
-    title: "",
-    taskText: "",
-    owner: "",
-    date: "",
-  } as Marker,
+  tasks: [] as Markers,
   isLoading: false,
   error: null,
 } as IInitialState;
@@ -47,7 +46,51 @@ const markerSlice = createSlice({
           state.isLoading = false;
         }
       )
-      .addCase(getAllTasks.rejected, handleReject);
+      .addCase(getAllTasks.rejected, handleReject)
+      .addCase(addTask.pending, handlePending)
+      .addCase(
+        addTask.fulfilled,
+        (state: IInitialState, action: PayloadAction<Marker>) => {
+          state.tasks.push(action.payload);
+          state.isLoading = false;
+        }
+      )
+      .addCase(addTask.rejected, handleReject)
+      .addCase(updateTask.pending, handlePending)
+      .addCase(
+        updateTask.fulfilled,
+        (state: IInitialState, action: PayloadAction<Marker>) => {
+          const indexOfSub = current(state.tasks).findIndex(
+            (task) => task._id === action.payload._id
+          );
+
+          console.log(indexOfSub);
+
+          if (indexOfSub === -1) throw new Error("No task!");
+
+          state.tasks.splice(indexOfSub, 1, action.payload);
+          state.isLoading = false;
+        }
+      )
+      .addCase(updateTask.rejected, handleReject)
+      .addCase(deleteMarker.pending, handlePending)
+      .addCase(
+        deleteMarker.fulfilled,
+        (
+          state: IInitialState,
+          action: PayloadAction<{ deletingTask: Marker }>
+        ) => {
+          console.log(action);
+          const deleteIndex = state.tasks.findIndex(
+            (task) => task._id === action.payload.deletingTask._id
+          );
+          if (deleteIndex === -1) throw new Error("No task!");
+
+          state.tasks.splice(deleteIndex, 1);
+          state.isLoading = false;
+        }
+      )
+      .addCase(deleteMarker.rejected, handleReject);
   },
 });
 
