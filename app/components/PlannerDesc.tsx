@@ -3,7 +3,11 @@ import React, { useEffect, useState } from "react";
 import CreateBlock from "./function/CreateBlock";
 import { CreateMarkerForm } from "./Forms/CreateMarkerForm";
 import { useAppDispatch } from "@/redux/hooks";
-import { getAllTasks } from "@/redux/features/MarkersPlan/marker-operations";
+import {
+  deleteMarker,
+  getAllTasks,
+  updateTask,
+} from "@/redux/features/MarkersPlan/marker-operations";
 import { useSelector } from "react-redux";
 import { selectTasks } from "@/redux/features/MarkersPlan/selectors";
 
@@ -30,7 +34,7 @@ const PlannerDesc = () => {
   const dispatch = useAppDispatch();
 
   const tasksTitle = useSelector(selectTasks);
-  console.log(tasksTitle.map((task) => task.title));
+  console.log(tasksTitle);
 
   useEffect(() => {
     dispatch(getAllTasks());
@@ -70,7 +74,39 @@ const PlannerDesc = () => {
 
       {tasksTitle
         ? tasksTitle.map((t) => {
-            return <p key={t._id}>{t.title}</p>;
+            return (
+              <div
+                className="w-16 h-16 bg-red-300"
+                key={t._id}
+                id={t._id}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  console.log(t._id);
+                  dispatch(
+                    updateTask({
+                      id: t._id,
+                      newMarkerData: {
+                        title: "Updated task",
+                        taskText: "t.taskText",
+                        date: t.date,
+                      },
+                    })
+                  );
+                }}
+              >
+                <span
+                  className="w-[30px] h-[15px] bg-cyan-300"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    // console.log(e.currentTarget.closest("div")?.id);
+                    dispatch(deleteMarker(e.currentTarget.closest("div")?.id));
+                  }}
+                >
+                  delete
+                </span>
+                <p>{t.title}</p>
+              </div>
+            );
           })
         : ""}
 
