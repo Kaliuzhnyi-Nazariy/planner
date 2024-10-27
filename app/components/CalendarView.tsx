@@ -7,13 +7,12 @@ import React from "react";
 const CalendarView = () => {
   const [calendarIsOpen, setCalendarIsOpen] = useState(false);
 
-  let [value, setValue] = React.useState(
-    parseDate(new Date().toLocaleDateString("fr-CA"))
-  );
-  // const currentDate = new Date().toLocaleDateString(undefined, options);
-  const currentDate = value.year + "-" + value.month + "-" + value.day;
+  const [value, setValue] = useState(() => {
+    const storedDate = localStorage.getItem("date");
+    return parseDate(storedDate || new Date().toLocaleDateString("fr-CA"));
+  });
 
-  console.log(value);
+  const currentDate = value.year + "-" + value.month + "-" + value.day;
 
   return (
     <div>
@@ -22,12 +21,17 @@ const CalendarView = () => {
       </button>
       {calendarIsOpen ? (
         <Calendar
-          lang="en" // Set language to English
+          lang="en"
           aria-label="Date (Controlled)"
           value={value}
           onChange={(e) => {
-            setValue(e); // Update selected date
-            setCalendarIsOpen(false); // Close the calendar
+            console.log(e);
+            localStorage.setItem("date", `${e}`);
+            setValue(e);
+            setCalendarIsOpen(false);
+          }}
+          onClick={(e) => {
+            e.stopPropagation();
           }}
           className="absolute top-12 left-10 translate-x-[-50%] z-40 bg-white shadow-lg min-w-[280px] rounded-lg p-2 border border-orange-500"
           classNames={{
