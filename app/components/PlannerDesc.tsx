@@ -10,6 +10,7 @@ import {
 } from "@/redux/features/MarkersPlan/marker-operations";
 import { useSelector } from "react-redux";
 import { selectTasks } from "@/redux/features/MarkersPlan/selectors";
+import { title } from "process";
 
 interface BlockPosition {
   x: number;
@@ -76,7 +77,7 @@ const PlannerDesc = () => {
         ? tasksTitle.map((t) => {
             return (
               <div
-                className="w-16 h-16 bg-red-300"
+                className="w-28 h-28 bg-red-300"
                 key={t._id}
                 id={t._id}
                 onClick={(e) => {
@@ -94,7 +95,7 @@ const PlannerDesc = () => {
                   );
                 }}
               >
-                <span
+                <button
                   className="w-[30px] h-[15px] bg-cyan-300"
                   onClick={(e) => {
                     e.stopPropagation();
@@ -103,7 +104,21 @@ const PlannerDesc = () => {
                   }}
                 >
                   delete
-                </span>
+                </button>
+                <button
+                  className="w-[40px] h-[20px] bg-yellow-300"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    // console.log(e.currentTarget.closest("div")?.id);
+                    console.log({
+                      title: t.title,
+                      taskText: t.taskText,
+                    });
+                  }}
+                >
+                  more info
+                </button>
+
                 <p>{t.title}</p>
               </div>
             );
