@@ -3,6 +3,7 @@
 import {
   selectUserEmail,
   selectUserID,
+  selectUserIsLoading,
   selectUserUsername,
 } from "@/redux/features/auth/selectors";
 import { useRouter } from "next/navigation";
@@ -11,7 +12,11 @@ import { FaRegUserCircle } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import FormInput from "./FormInput/FormInput";
 import { useAppDispatch } from "@/redux/hooks";
-import { refreshUser, updateAcc } from "@/redux/features/auth/auth-operations";
+import {
+  deleteAccount,
+  refreshUser,
+  updateAcc,
+} from "@/redux/features/auth/auth-operations";
 
 const UserPageInfo = () => {
   const route = useRouter();
@@ -19,17 +24,13 @@ const UserPageInfo = () => {
   const username = useSelector(selectUserUsername);
   const email = useSelector(selectUserEmail);
   const userId = useSelector(selectUserID);
-
-  console.log("userId: ", userId);
+  const isLoading = useSelector(selectUserIsLoading);
 
   const [changeInfoMode, setChangeInfoMode] = useState(false);
   const [newUsername, setNewUsername] = useState(username as string);
   const [newEmail, setNewEmail] = useState(email as string);
 
   const dispatch = useAppDispatch();
-  useEffect(() => {
-    dispatch(refreshUser());
-  }, [dispatch]);
 
   return (
     <div className="flex justify-center h-full">
@@ -66,6 +67,7 @@ const UserPageInfo = () => {
                     },
                   })
                 );
+                dispatch(refreshUser());
               }}
             >
               Save changes
@@ -74,10 +76,11 @@ const UserPageInfo = () => {
         ) : (
           <>
             <h2>
-              <b>Name:</b> {username}
+              <b>Name:</b>
+              {isLoading ? "Loading..." : <>{username}</>}
             </h2>
             <h3>
-              <b>Email:</b> {email}
+              <b>Email:</b> {isLoading ? "Loading..." : <>{email}</>}
             </h3>
             <button
               onClick={() => {
@@ -99,6 +102,7 @@ const UserPageInfo = () => {
         <button
           onClick={() => {
             console.log("Delete account");
+            // dispatch(deleteAccount());
             route.replace("/authorization/signup");
           }}
         >
