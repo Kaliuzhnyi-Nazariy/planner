@@ -83,7 +83,7 @@ export const resetPassword = createAsyncThunk<
 
 export const updateAcc = createAsyncThunk<
   UpdatedUser,
-  { id: number; UpdatedUserData: UpdatedUser },
+  { id: string; UpdatedUserData: UpdatedUser },
   { rejectValue: any }
 >(
   "auth/updateAcc",

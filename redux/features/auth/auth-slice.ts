@@ -10,9 +10,10 @@ import {
 } from "./auth-operations";
 
 import { createSlice, current, PayloadAction } from "@reduxjs/toolkit";
-import { regUser, UpdatedUser, User } from "./typesOrInterfaces";
+import { IRefreshUser, regUser, UpdatedUser, User } from "./typesOrInterfaces";
 
 interface IValue {
+  id: String;
   isAuth: boolean;
   username: String;
   email: String;
@@ -27,11 +28,12 @@ export type initialStateType = {
 
 const initialState = {
   value: {
+    id: "",
     isAuth: false,
-    token: "",
     username: "",
     email: "",
   } as IValue,
+  token: "",
   isLoading: false,
   error: null,
 } as initialStateType;
@@ -60,7 +62,6 @@ const authSlice = createSlice({
       .addCase(
         register.fulfilled,
         (state: initialStateType, action: PayloadAction<regUser>) => {
-          console.log(action.payload);
           state.value.username = action.payload.username;
           state.value.email = action.payload.email;
           state.isLoading = false;
@@ -71,6 +72,7 @@ const authSlice = createSlice({
       .addCase(
         login.fulfilled,
         (state: initialStateType, action: PayloadAction<User>) => {
+          state.value.id = action.payload._id;
           state.value.isAuth = true;
           state.value.email = action.payload.email;
           state.value.username = action.payload.username;
@@ -121,9 +123,11 @@ const authSlice = createSlice({
       .addCase(refreshUser.pending, handlePending)
       .addCase(
         refreshUser.fulfilled,
-        (state: initialStateType, action: PayloadAction<regUser>) => {
+        (state: initialStateType, action: PayloadAction<IRefreshUser>) => {
+          console.log(action);
           state.value.email = action.payload.email;
           state.value.username = action.payload.username;
+          state.value.id = action.payload._id;
           state.value.isAuth = true;
           state.isLoading = false;
         }

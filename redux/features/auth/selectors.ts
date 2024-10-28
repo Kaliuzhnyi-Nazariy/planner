@@ -1,11 +1,11 @@
-export const selectUserID = (state: { auth: { value: { id: String } } }) =>
+export const selectUserID = (state: { auth: { value: { id: string } } }) =>
   state.auth.value.id;
 
 export const selectUserIsAuth = (state: {
   auth: { value: { isAuth: Boolean } };
 }) => state.auth.value.isAuth;
 
-export const selectUserTokeb = (state: {
+export const selectUserToken = (state: {
   auth: { value: { token: String } };
 }) => state.auth.value.token;
 
