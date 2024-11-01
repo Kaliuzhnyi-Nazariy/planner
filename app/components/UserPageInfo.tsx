@@ -55,10 +55,10 @@ const UserPageInfo = () => {
               />
             </h3>
             <button
-              onClick={() => {
+              onClick={async () => {
                 setChangeInfoMode(false);
                 console.log("Info updated", { newUsername, newEmail });
-                dispatch(
+                await dispatch(
                   updateAcc({
                     id: userId,
                     UpdatedUserData: {
