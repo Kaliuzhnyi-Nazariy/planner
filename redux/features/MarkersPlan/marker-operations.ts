@@ -14,6 +14,23 @@ export const getAllTasks = createAsyncThunk<Marker, void, { rejectValue: any }>(
   }
 );
 
+export const getTasksByDate = createAsyncThunk<
+  Marker,
+  { date: string },
+  { rejectValue: any }
+>("markers/getByDate", async ({ date }, thunkAPI) => {
+  try {
+    console.log("search date: ", date);
+    console.log(`${axios.defaults.baseURL}/plans/byDate`);
+    const res = await axios.get("/plans/byDate", { date: `${date}` });
+    console.log("res: ", res);
+    return res.data;
+  } catch (error: any) {
+    console.log(error);
+    thunkAPI.rejectWithValue(error.message);
+  }
+});
+
 // export const getOneTask = createAsyncThunk<
 //   Marker,
 //   { id: string },
@@ -28,8 +45,8 @@ export const getAllTasks = createAsyncThunk<Marker, void, { rejectValue: any }>(
 // });
 
 export const addTask = createAsyncThunk<
-  newMarkerData,
   Marker,
+  newMarkerData,
   { rejectValue: any }
 >("markers/addMarker", async (newMarkerData, thunkAPI) => {
   try {

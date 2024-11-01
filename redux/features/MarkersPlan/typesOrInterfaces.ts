@@ -9,7 +9,7 @@ export interface Marker {
 export type Markers = Array<Marker>;
 
 export interface IInitialState {
-  tasks: Markers;
+  tasks: Array<Marker>;
   isLoading: boolean;
   error: string | null;
 }
@@ -17,7 +17,7 @@ export interface IInitialState {
 export type newMarkerData = {
   title: string;
   taskText: string;
-  date: string;
+  date: string | null;
   x?: number;
   y?: number;
 };
