@@ -4,13 +4,16 @@ import CreateBlock from "./function/CreateBlock";
 import { CreateMarkerForm } from "./Forms/CreateMarkerForm";
 import { useAppDispatch } from "@/redux/hooks";
 import {
+  addTask,
   deleteMarker,
   getAllTasks,
+  getTasksByDate,
   updateTask,
 } from "@/redux/features/MarkersPlan/marker-operations";
 import { useSelector } from "react-redux";
 import { selectTasks } from "@/redux/features/MarkersPlan/selectors";
-import { title } from "process";
+import CreateMarkerView from "./function/CreateMarkerView";
+import { UpdateMarkerForm } from "./Forms/UpdateMarkerForm";
 
 interface BlockPosition {
   x: number;
@@ -18,9 +21,13 @@ interface BlockPosition {
 }
 
 const PlannerDesc = () => {
-  const [positions, setPosition] = useState<BlockPosition[]>([]);
+  // const [positions, setPosition] = useState<BlockPosition[]>([]);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [updateModal, setUpdateModal] = useState(false);
+
+  const [userInfo, setUserInfo] = useState({});
+
   const [xPos, setXPos] = useState(0);
   const [yPos, setYPos] = useState(0);
 
@@ -32,30 +39,56 @@ const PlannerDesc = () => {
     setIsModalOpen(false);
   };
 
+  const handleOpenUpdate = () => {
+    setUpdateModal(true);
+  };
+
+  const handleCloseUpdate = () => {
+    setUpdateModal(false);
+  };
+
   const dispatch = useAppDispatch();
 
   const tasksTitle = useSelector(selectTasks);
-  console.log(tasksTitle);
+
+  const dateForMarkers = localStorage.getItem("date");
+
+  const fetchMarkerByDate = async () => {
+    await dispatch(getTasksByDate({ date: dateForMarkers }));
+  };
 
   useEffect(() => {
     dispatch(getAllTasks());
-  }, [dispatch]);
+    // fetchMarkerByDate();
+  }, [
+    dispatch,
+    // dateForMarkers
+  ]);
+
+  // useEffect(() => {
+  //   // setXPos(250);
+  //   // setYPos(419);
+
+  //   console.log(dateForMarkers);
+
+  //   // dispatch(
+  //   //   addTask({
+  //   //     title: "title task created through useEffect",
+  //   //     taskText: "taskText task created through useEffect",
+  //   //     date: dateForMarkers,
+  //   //     x: 554,
+  //   //     y: 556,
+  //   //   })
+  //   // );
+
+  //   // console.log(tasksTitle);
+
+  //   // console.log("xPos: ", xPos);
+  // }, []);
 
   const createAPlan = (e: any) => {
-    // console.log(e);
-    // // const x = e.clientX;
-    // //   const y = e.clientY;
-    // const x = e.screenX;
-    // const y = e.screenY;
-
-    // setPosition([...positions, { x, y }]);
-    // console.log({ x, y });
     setXPos(e.screenX);
     setYPos(e.screenY);
-    const x = e.screenX;
-    const y = e.screenY;
-
-    setPosition([...positions, { x, y }]);
   };
 
   return (
@@ -66,76 +99,88 @@ const PlannerDesc = () => {
         handleOpen();
       }}
     >
-      {/* smth*/}
-      {positions.length > 0
-        ? positions.map((position, index) => (
-            <CreateBlock x={position?.x} y={position?.y} key={index} />
-          ))
-        : ""}
-
       {tasksTitle
-        ? tasksTitle.map((t) => {
-            return (
-              <div
-                className="w-28 h-28 bg-red-300"
-                key={t._id}
-                id={t._id}
+        ? tasksTitle.map((t) => (
+            // <CreateMarkerView
+            //   key={t._id}
+            //   id={t._id}
+            //   title={t.title}
+            //   taskText={t.taskText}
+            //   x={t.coordinates.x}
+            //   y={t.coordinates.y}
+            // />
+            <div
+              className="w-28 h-28 bg-red-300"
+              key={t._id}
+              id={t._id}
+              onClick={(e) => {
+                e.stopPropagation();
+                console.log(t._id);
+                dispatch(
+                  updateTask({
+                    id: t._id,
+                    newMarkerData: {
+                      title: "Updated task",
+                      taskText: "t.taskText",
+                      date: t.date,
+                    },
+                  })
+                );
+              }}
+            >
+              <button
+                className="w-[30px] h-[15px] bg-cyan-300"
                 onClick={(e) => {
                   e.stopPropagation();
-                  console.log(t._id);
-                  dispatch(
-                    updateTask({
-                      id: t._id,
-                      newMarkerData: {
-                        title: "Updated task",
-                        taskText: "t.taskText",
-                        date: t.date,
-                      },
-                    })
-                  );
+                  // console.log(e.currentTarget.closest("div")?.id);
+                  dispatch(deleteMarker(e.currentTarget.closest("div")?.id));
                 }}
               >
-                <button
-                  className="w-[30px] h-[15px] bg-cyan-300"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    // console.log(e.currentTarget.closest("div")?.id);
-                    dispatch(deleteMarker(e.currentTarget.closest("div")?.id));
-                  }}
-                >
-                  delete
-                </button>
-                <button
-                  className="w-[40px] h-[20px] bg-yellow-300"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    // console.log(e.currentTarget.closest("div")?.id);
-                    console.log({
-                      title: t.title,
-                      taskText: t.taskText,
-                    });
-                  }}
-                >
-                  more info
-                </button>
+                delete
+              </button>
+              <button
+                className="w-[40px] h-[20px] bg-yellow-300"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  // console.log(e.currentTarget.closest("div")?.id);
+                  handleOpenUpdate();
+                  setUserInfo(t);
+                }}
+              >
+                more info
+              </button>
 
-                <p>{t.title}</p>
-              </div>
-            );
-          })
+              <p>{t.title}</p>
+            </div>
+          ))
         : ""}
 
       {isModalOpen ? (
         <div
           className="bg-slate-700 absolute w-full h-full top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-50"
           onClick={(e) => {
-            console.log("Modal closed info: ", xPos, yPos);
             handleClose();
             e.stopPropagation();
           }}
         >
-          <CreateMarkerForm onClose={handleClose} />
+          <CreateMarkerForm onClose={handleClose} position={{ xPos, yPos }} />
         </div>
+      ) : (
+        ""
+      )}
+
+      {updateModal ? (
+        <>
+          <div
+            className="bg-slate-700 absolute w-full h-full top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-50"
+            onClick={(e) => {
+              handleCloseUpdate();
+              e.stopPropagation();
+            }}
+          >
+            <UpdateMarkerForm onClose={handleCloseUpdate} info={userInfo} />
+          </div>
+        </>
       ) : (
         ""
       )}
