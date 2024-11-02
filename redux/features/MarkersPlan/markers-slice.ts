@@ -24,8 +24,7 @@ const handleReject = (
   action: PayloadAction<IInitialState>
 ) => {
   state.isLoading = false;
-  console.log(action);
-  state.error = action?.payload?.error;
+  state.error = action?.error;
 };
 
 const markerSlice = createSlice({
@@ -43,7 +42,6 @@ const markerSlice = createSlice({
           //   state.tasks.taskText = action.payload[0].taskText;
           //   state.tasks.owner = action.payload[0].owner;
           //   state.tasks.date = action.payload[0].date;
-          console.log("state: ", current(state));
           state.tasks = action.payload;
           state.isLoading = false;
         }
@@ -53,7 +51,6 @@ const markerSlice = createSlice({
       .addCase(
         getTasksByDate.fulfilled,
         (state: IInitialState, action: PayloadAction<Markers>) => {
-          console.log("action.payload: ", action);
           state.tasks = action.payload;
           state.isLoading = false;
         }
@@ -63,8 +60,6 @@ const markerSlice = createSlice({
       .addCase(
         addTask.fulfilled,
         (state: IInitialState, action: PayloadAction<Marker>) => {
-          console.log(current(state));
-          console.log(action.payload);
           // state.tasks.push(action.payload);
           state.tasks = [...state.tasks, action.payload];
 
@@ -80,8 +75,6 @@ const markerSlice = createSlice({
             (task) => task._id === action.payload._id
           );
 
-          console.log(indexOfSub);
-
           if (indexOfSub === -1) throw new Error("No task!");
 
           state.tasks.splice(indexOfSub, 1, action.payload);
@@ -96,7 +89,6 @@ const markerSlice = createSlice({
           state: IInitialState,
           action: PayloadAction<{ deletingTask: Marker }>
         ) => {
-          console.log(action);
           const deleteIndex = state.tasks.findIndex(
             (task) => task._id === action.payload.deletingTask._id
           );

@@ -48,8 +48,7 @@ const handleReject = (
   action: PayloadAction<initialStateType>
 ) => {
   state.isLoading = false;
-  console.log(action);
-  state.error = action?.payload?.error;
+  state.error = action?.error;
 };
 
 const authSlice = createSlice({
@@ -78,7 +77,6 @@ const authSlice = createSlice({
           state.value.username = action.payload.username;
           state.token = action.payload.token;
           state.isLoading = false;
-          console.log(current(state));
         }
       )
       .addCase(login.rejected, handleReject)
@@ -86,7 +84,6 @@ const authSlice = createSlice({
       .addCase(
         resetPasswordReq.fulfilled,
         (state: initialStateType, action: PayloadAction<unknown>) => {
-          console.log(action);
           state.isLoading = false;
         }
       )
@@ -95,7 +92,6 @@ const authSlice = createSlice({
       .addCase(
         resetPassword.fulfilled,
         (state: initialStateType, action: PayloadAction<unknown>) => {
-          console.log(action);
           state.isLoading = false;
         }
       )
@@ -124,7 +120,6 @@ const authSlice = createSlice({
       .addCase(
         refreshUser.fulfilled,
         (state: initialStateType, action: PayloadAction<IRefreshUser>) => {
-          console.log(action);
           state.value.email = action.payload.email;
           state.value.username = action.payload.username;
           state.value.id = action.payload._id;
