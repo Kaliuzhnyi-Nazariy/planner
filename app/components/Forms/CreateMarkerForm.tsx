@@ -47,18 +47,9 @@ export const CreateMarkerForm = ({ onClose, position }: Prop) => {
       }}
     >
       <div
-        className="bg-white p-4 rounded-lg shadow-lg"
+        className="bg-yellow-200 p-4 shadow-lg"
         onClick={(e) => e.stopPropagation()}
       >
-        <button
-          onClick={(e) => {
-            onClose();
-            e.stopPropagation();
-          }}
-          className="absolute top-2 right-2"
-        >
-          Close
-        </button>
         <Formik
           initialValues={{
             titleOfMarker: "",
@@ -72,12 +63,13 @@ export const CreateMarkerForm = ({ onClose, position }: Prop) => {
             setSubmitting(false);
           }}
         >
-          <Form className="flex flex-col gap-4">
+          <Form className="flex flex-col gap-5">
             <div className="flex gap-2">
               <label htmlFor="titleOfMarker">
-                <b>Title</b>
+                <b>Title: </b>
               </label>
               <Field
+                className="bg-transparent border-b-1 focus:border-b-black outline-none"
                 id="titleOfMarker"
                 name="titleOfMarker"
                 placeholder="Title..."
@@ -86,9 +78,10 @@ export const CreateMarkerForm = ({ onClose, position }: Prop) => {
 
             <div className="flex gap-2">
               <label htmlFor="textOfTask">
-                <b>Task`s text</b>
+                <b>Task`s text: </b>
               </label>
               <Field
+                className="bg-transparent border-b-1 focus:border-b-black outline-none active:bg-transparent"
                 id="textOfTask"
                 name="textOfTask"
                 placeholder="Today I should..."
@@ -96,9 +89,9 @@ export const CreateMarkerForm = ({ onClose, position }: Prop) => {
             </div>
             <button
               type="submit"
-              className="bg-blue-500 text-white py-2 px-4 rounded"
+              className="bg-orange-500 text-white py-2 px-4 rounded transition-all hover:scale-105 duration-150"
             >
-              Submit
+              Create marker
             </button>
           </Form>
         </Formik>
