@@ -8,6 +8,9 @@ import { Marker } from "@/redux/features/MarkersPlan/typesOrInterfaces";
 import { useAppDispatch } from "@/redux/hooks";
 import { Formik, Field, Form, FormikHelpers } from "formik";
 import { useState } from "react";
+// import CalendarView from "../CalendarView";
+import { DatePicker } from "@nextui-org/react";
+import { parseDate } from "@internationalized/date";
 
 interface Values {
   titleOfMarker: string;
@@ -22,6 +25,13 @@ type Prop = {
 export const UpdateMarkerForm = ({ onClose, info }: Prop) => {
   const dispatch = useAppDispatch();
 
+  const [dateValue, setDateValue] = useState(
+    parseDate(info.date || new Date().toLocaleDateString("fr-CA"))
+  );
+
+  const currentDate =
+    dateValue.year + "-" + dateValue.month + "-" + dateValue.day;
+
   const handleSubmitingForm = async (values: Values) => {
     await dispatch(
       updateTask({
@@ -29,7 +39,7 @@ export const UpdateMarkerForm = ({ onClose, info }: Prop) => {
         newMarkerData: {
           title: values.titleOfMarker,
           taskText: values.textOfTask,
-          date: localStorage.getItem("date"),
+          date: currentDate,
         },
       })
     );
@@ -45,18 +55,9 @@ export const UpdateMarkerForm = ({ onClose, info }: Prop) => {
       }}
     >
       <div
-        className="bg-white p-4 rounded-lg shadow-lg"
+        className="bg-yellow-100 p-4 shadow-lg"
         onClick={(e) => e.stopPropagation()}
       >
-        <button
-          onClick={(e) => {
-            onClose();
-            e.stopPropagation();
-          }}
-          className="absolute top-2 right-2"
-        >
-          Close
-        </button>
         <Formik
           initialValues={{
             titleOfMarker: info.title,
@@ -70,23 +71,25 @@ export const UpdateMarkerForm = ({ onClose, info }: Prop) => {
             setSubmitting(false);
           }}
         >
-          <Form className="flex flex-col gap-4">
-            <div className="flex gap-2">
+          <Form className="flex flex-col flex-wrap gap-5">
+            <div className="flex gap-2 w-full">
               <label htmlFor="titleOfMarker">
-                <b>Title</b>
+                <b>Title: </b>
               </label>
               <Field
+                className="bg-transparent border-b-1 focus:border-b-black outline-none"
                 id="titleOfMarker"
                 name="titleOfMarker"
                 placeholder="Title..."
               />
             </div>
 
-            <div className="flex gap-2">
+            <div className="flex gap-2 w-full">
               <label htmlFor="textOfTask">
-                <b>Task`s text</b>
+                <b>Task`s text: </b>
               </label>
               <Field
+                className="bg-transparent border-b-1 focus:border-b-black outline-none"
                 id="textOfTask"
                 name="textOfTask"
                 placeholder="Today I should..."
@@ -94,11 +97,30 @@ export const UpdateMarkerForm = ({ onClose, info }: Prop) => {
 
               {/* add calendar */}
             </div>
+            <div
+              className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-full"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+              }}
+            >
+              <DatePicker
+                label={"Birth date"}
+                variant="underlined"
+                value={dateValue}
+                onChange={(e) => {
+                  setDateValue(e);
+                }}
+                // classNames={}
+                color="warning"
+                className="text-black"
+              />
+            </div>
             <button
               type="submit"
-              className="bg-blue-500 text-white py-2 px-4 rounded"
+              className="bg-orange-500 text-white py-2 px-4 rounded hover:scale-105 transition-all duration-150	"
             >
-              Submit
+              Update marker
             </button>
           </Form>
         </Formik>
