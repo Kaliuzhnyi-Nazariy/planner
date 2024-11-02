@@ -2,6 +2,7 @@
 
 import {
   addTask,
+  deleteMarker,
   updateTask,
 } from "@/redux/features/MarkersPlan/marker-operations";
 import { Marker } from "@/redux/features/MarkersPlan/typesOrInterfaces";
@@ -55,9 +56,19 @@ export const UpdateMarkerForm = ({ onClose, info }: Prop) => {
       }}
     >
       <div
-        className="bg-yellow-100 p-4 shadow-lg"
+        className="bg-yellow-100 p-4 shadow-lg relative"
         onClick={(e) => e.stopPropagation()}
       >
+        <button
+          className="absolute top-2 right-5 "
+          onClick={(e) => {
+            e.stopPropagation();
+            dispatch(deleteMarker(info._id));
+            onClose();
+          }}
+        >
+          del
+        </button>
         <Formik
           initialValues={{
             titleOfMarker: info.title,
@@ -84,19 +95,18 @@ export const UpdateMarkerForm = ({ onClose, info }: Prop) => {
               />
             </div>
 
-            <div className="flex gap-2 w-full">
-              <label htmlFor="textOfTask">
-                <b>Task`s text: </b>
-              </label>
-              <Field
-                className="bg-transparent border-b-1 focus:border-b-black outline-none"
-                id="textOfTask"
-                name="textOfTask"
-                placeholder="Today I should..."
-              />
+            <label htmlFor="textOfTask">
+              <b>Task`s text: </b>
+            </label>
+            <Field
+              as="textarea"
+              className="bg-transparent border-b-1 focus:border-b-black outline-none text-wrap break-words hyphens-auto"
+              id="textOfTask"
+              name="textOfTask"
+              placeholder="Today I should..."
+            />
 
-              {/* add calendar */}
-            </div>
+            {/* add calendar */}
             <div
               className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4 h-full"
               onClick={(e) => {
