@@ -6,6 +6,15 @@ export interface Marker {
   date: string;
 }
 
+export interface IReceivedMarker extends Marker {
+  coordinates: {
+    x: number;
+    y: number;
+  };
+}
+
+export type IReceivedMarkers = Array<IReceivedMarker>;
+
 export type Markers = Array<Marker>;
 
 export interface IInitialState {
