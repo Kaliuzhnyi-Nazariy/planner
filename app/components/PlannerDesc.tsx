@@ -50,6 +50,7 @@ const PlannerDesc = () => {
   const dispatch = useAppDispatch();
 
   const tasksTitle = useSelector(selectTasks);
+  console.log(tasksTitle);
 
   const dateForMarkers = localStorage.getItem("date");
 
@@ -99,62 +100,72 @@ const PlannerDesc = () => {
         handleOpen();
       }}
     >
-      {tasksTitle
-        ? tasksTitle.map((t) => (
-            // <CreateMarkerView
-            //   key={t._id}
-            //   id={t._id}
-            //   title={t.title}
-            //   taskText={t.taskText}
-            //   x={t.coordinates.x}
-            //   y={t.coordinates.y}
-            // />
-            <div
-              className="w-28 h-28 bg-red-300"
-              key={t._id}
-              id={t._id}
-              onClick={(e) => {
-                e.stopPropagation();
-                console.log(t._id);
-                dispatch(
-                  updateTask({
-                    id: t._id,
-                    newMarkerData: {
-                      title: "Updated task",
-                      taskText: "t.taskText",
-                      date: t.date,
-                    },
-                  })
-                );
-              }}
-            >
-              <button
-                className="w-[30px] h-[15px] bg-cyan-300"
+      <ul>
+        {tasksTitle
+          ? tasksTitle.map((t) => (
+              <li
+                key={t._id}
                 onClick={(e) => {
                   e.stopPropagation();
-                  // console.log(e.currentTarget.closest("div")?.id);
-                  dispatch(deleteMarker(e.currentTarget.closest("div")?.id));
-                }}
-              >
-                delete
-              </button>
-              <button
-                className="w-[40px] h-[20px] bg-yellow-300"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  // console.log(e.currentTarget.closest("div")?.id);
-                  handleOpenUpdate();
                   setUserInfo(t);
+                  handleOpenUpdate();
                 }}
               >
-                more info
-              </button>
+                <CreateMarkerView
+                  id={t._id}
+                  title={t.title}
+                  taskText={t.taskText}
+                  x={t.coordinates.x}
+                  y={t.coordinates.y}
+                />
+                {/* <div
+                className="w-28 h-28 bg-red-300"
+                key={t._id}
+                id={t._id}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  // console.log(t);
 
-              <p>{t.title}</p>
-            </div>
-          ))
-        : ""}
+                  dispatch(
+                    updateTask({
+                      id: t._id,
+                      newMarkerData: {
+                        title: "Updated task",
+                        taskText: "t.taskText",
+                        date: t.date,
+                      },
+                    })
+                  );
+                }}
+              >
+                <button
+                  className="w-[30px] h-[15px] bg-cyan-300"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    // console.log(e.currentTarget.closest("div")?.id);
+                    dispatch(deleteMarker(e.currentTarget.closest("div")?.id));
+                  }}
+                >
+                  delete
+                </button>
+                <button
+                  className="w-[40px] h-[20px] bg-yellow-300"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    // console.log(e.currentTarget.closest("div")?.id);
+                    handleOpenUpdate();
+                    setUserInfo(t);
+                  }}
+                >
+                  more info
+                </button>
 
+                <p>{t.title}</p>
+              </div> */}
+              </li>
+            ))
+          : ""}
+      </ul>
       {isModalOpen ? (
         <div
           className="bg-slate-700 absolute w-full h-full top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-50"
