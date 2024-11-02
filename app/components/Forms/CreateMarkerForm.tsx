@@ -33,6 +33,8 @@ export const CreateMarkerForm = ({ onClose, position }: Prop) => {
       title: values.titleOfMarker,
       taskText: values.textOfTask,
       date: localStorage.getItem("date"),
+      x: position.xPos,
+      y: position.yPos,
     };
     await dispatch(addTask(addTaskValues));
     onClose();
@@ -76,17 +78,16 @@ export const CreateMarkerForm = ({ onClose, position }: Prop) => {
               />
             </div>
 
-            <div className="flex gap-2">
-              <label htmlFor="textOfTask">
-                <b>Task`s text: </b>
-              </label>
-              <Field
-                className="bg-transparent border-b-1 focus:border-b-black outline-none active:bg-transparent"
-                id="textOfTask"
-                name="textOfTask"
-                placeholder="Today I should..."
-              />
-            </div>
+            <label htmlFor="textOfTask">
+              <b>Task`s text: </b>
+            </label>
+            <Field
+              as="textarea"
+              className="bg-transparent border-b-1 focus:border-b-black outline-none active:bg-transparent min-h-5 resize-y h-auto text-wrap break-words hyphens-auto"
+              id="textOfTask"
+              name="textOfTask"
+              placeholder="Today I should..."
+            />
             <button
               type="submit"
               className="bg-orange-500 text-white py-2 px-4 rounded transition-all hover:scale-105 duration-150"
