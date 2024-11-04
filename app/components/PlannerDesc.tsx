@@ -14,6 +14,7 @@ import { useSelector } from "react-redux";
 import { selectTasks } from "@/redux/features/MarkersPlan/selectors";
 import CreateMarkerView from "./function/CreateMarkerView";
 import { UpdateMarkerForm } from "./Forms/UpdateMarkerForm";
+import { selectDate } from "@/redux/features/date/selectors";
 
 interface BlockPosition {
   x: number;
@@ -50,21 +51,13 @@ const PlannerDesc = () => {
   const dispatch = useAppDispatch();
 
   const tasksTitle = useSelector(selectTasks);
-  console.log(tasksTitle);
-
-  const dateForMarkers = localStorage.getItem("date");
-
-  const fetchMarkerByDate = async () => {
-    await dispatch(getTasksByDate({ date: dateForMarkers }));
-  };
+  const datePicked = useSelector(selectDate);
 
   useEffect(() => {
-    dispatch(getAllTasks());
+    // dispatch(getAllTasks());
     // fetchMarkerByDate();
-  }, [
-    dispatch,
-    // dateForMarkers
-  ]);
+    dispatch(getTasksByDate({ date: datePicked }));
+  }, [dispatch, datePicked]);
 
   // useEffect(() => {
   //   // setXPos(250);
@@ -100,7 +93,7 @@ const PlannerDesc = () => {
         handleOpen();
       }}
     >
-      <ul>
+      <ul className="relative">
         {tasksTitle
           ? tasksTitle.map((t) => (
               <li
@@ -110,62 +103,37 @@ const PlannerDesc = () => {
                   setUserInfo(t);
                   handleOpenUpdate();
                 }}
+                style={{ top: t.coordinates.y, left: t.coordinates.x }}
+                className="absolute w-[226px] h-min-[250px] border-1 border-red-500 group" // Add `group` here
               >
+                <div className="absolute top-0 right-0 invisible group-hover:visible flex gap-1 p-1">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      dispatch(deleteMarker(t._id));
+                    }}
+                  >
+                    del
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setUserInfo(t);
+                      handleOpenUpdate();
+                    }}
+                  >
+                    upd
+                  </button>
+                </div>
                 <CreateMarkerView
                   id={t._id}
                   title={t.title}
                   taskText={t.taskText}
-                  x={t.coordinates.x}
-                  y={t.coordinates.y}
                 />
-                {/* <div
-                className="w-28 h-28 bg-red-300"
-                key={t._id}
-                id={t._id}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  // console.log(t);
-
-                  dispatch(
-                    updateTask({
-                      id: t._id,
-                      newMarkerData: {
-                        title: "Updated task",
-                        taskText: "t.taskText",
-                        date: t.date,
-                      },
-                    })
-                  );
-                }}
-              >
-                <button
-                  className="w-[30px] h-[15px] bg-cyan-300"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    // console.log(e.currentTarget.closest("div")?.id);
-                    dispatch(deleteMarker(e.currentTarget.closest("div")?.id));
-                  }}
-                >
-                  delete
-                </button>
-                <button
-                  className="w-[40px] h-[20px] bg-yellow-300"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    // console.log(e.currentTarget.closest("div")?.id);
-                    handleOpenUpdate();
-                    setUserInfo(t);
-                  }}
-                >
-                  more info
-                </button>
-
-                <p>{t.title}</p>
-              </div> */}
               </li>
             ))
           : ""}
-      </ul>
+      </ul>{" "}
       {isModalOpen ? (
         <div
           className="bg-slate-700 absolute w-full h-full top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-50"
@@ -179,7 +147,6 @@ const PlannerDesc = () => {
       ) : (
         ""
       )}
-
       {updateModal ? (
         <>
           <div
