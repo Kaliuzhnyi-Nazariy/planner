@@ -1,10 +1,13 @@
 "use client";
 import { Calendar } from "@nextui-org/calendar";
 import { parseDate } from "@internationalized/date";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import React from "react";
+import { setDate } from "@/redux/features/date/date-slice";
+import { useAppDispatch } from "@/redux/hooks";
 
 const CalendarView = () => {
+  const dispatch = useAppDispatch();
   const [calendarIsOpen, setCalendarIsOpen] = useState(false);
 
   const [value, setValue] = useState(() => {
@@ -13,6 +16,18 @@ const CalendarView = () => {
   });
 
   const currentDate = value.year + "-" + value.month + "-" + value.day;
+
+  const chechCurrDay = (value) => {
+    if (value.day.toString().length === 1) {
+      return value.year + "-" + value.month + "-" + "0" + value.day;
+    } else {
+      return value.year + "-" + value.month + "-" + value.day;
+    }
+  };
+
+  useEffect(() => {
+    dispatch(setDate(chechCurrDay(value)));
+  }, [dispatch, value]);
 
   return (
     <div>
@@ -25,7 +40,6 @@ const CalendarView = () => {
           aria-label="Date (Controlled)"
           value={value}
           onChange={(e) => {
-            console.log(e);
             localStorage.setItem("date", `${e}`);
             setValue(e);
             setCalendarIsOpen(false);
