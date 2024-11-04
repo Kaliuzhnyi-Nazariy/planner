@@ -26,9 +26,25 @@ type Prop = {
 export const UpdateMarkerForm = ({ onClose, info }: Prop) => {
   const dispatch = useAppDispatch();
 
-  const [dateValue, setDateValue] = useState(
-    parseDate(info.date || new Date().toLocaleDateString("fr-CA"))
-  );
+  console.log(info);
+
+  // console.log(parseDate(info.date));
+
+  // const [dateValue, setDateValue] = useState(() => {
+  //   return parseDate(info.date || new Date().toLocaleDateString("fr-CA"));
+  // });
+
+  const formatDateString = (dateString: string) => {
+    const [year, month, day] = dateString.split("-");
+    return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+  };
+
+  const [dateValue, setDateValue] = useState(() => {
+    const formattedDate = info.date
+      ? formatDateString(info.date) // Format info.date to ensure ISO format
+      : new Date().toLocaleDateString("fr-CA");
+    return parseDate(formattedDate);
+  });
 
   const currentDate =
     dateValue.year + "-" + dateValue.month + "-" + dateValue.day;
