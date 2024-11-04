@@ -20,10 +20,8 @@ export const getTasksByDate = createAsyncThunk<
   { rejectValue: any }
 >("markers/getByDate", async ({ date }, thunkAPI) => {
   try {
-    console.log("search date: ", date);
-    console.log(`${axios.defaults.baseURL}/plans/byDate`);
-    const res = await axios.get("/plans/byDate", { date: `${date}` });
-    console.log("res: ", res);
+    const res = await axios.get(`/plans/byDate/${date}`);
+    console.log(`/plans/byDate/${date}`);
     return res.data;
   } catch (error: any) {
     console.log(error);
