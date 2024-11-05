@@ -12,6 +12,7 @@ import { useState } from "react";
 // import CalendarView from "../CalendarView";
 import { DatePicker } from "@nextui-org/react";
 import { parseDate } from "@internationalized/date";
+import { IValue } from "../CalendarView";
 
 interface Values {
   titleOfMarker: string;
@@ -46,8 +47,13 @@ export const UpdateMarkerForm = ({ onClose, info }: Prop) => {
     return parseDate(formattedDate);
   });
 
-  const currentDate =
-    dateValue.year + "-" + dateValue.month + "-" + dateValue.day;
+  const chechCurrDay = (value: IValue) => {
+    if (value.day.toString().length === 1) {
+      return value.year + "-" + value.month + "-" + "0" + value.day;
+    } else {
+      return value.year + "-" + value.month + "-" + value.day;
+    }
+  };
 
   const handleSubmitingForm = async (values: Values) => {
     await dispatch(
@@ -56,7 +62,7 @@ export const UpdateMarkerForm = ({ onClose, info }: Prop) => {
         newMarkerData: {
           title: values.titleOfMarker,
           taskText: values.textOfTask,
-          date: currentDate,
+          date: chechCurrDay(dateValue),
         },
       })
     );
