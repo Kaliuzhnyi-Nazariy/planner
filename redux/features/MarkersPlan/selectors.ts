@@ -9,12 +9,17 @@ export const selectFilter = (state: { filter: { filter: string } }) =>
 export const filteredTasks = createSelector(
   [selectTasks, selectFilter],
   (tasks, filterValue) => {
-    console.log(filterValue);
-    const normilizedFilterValue = filterValue.toLowerCase();
-    return tasks.filter(
-      (task) =>
-        task.title.toLowerCase().includes(normilizedFilterValue) ||
-        task.taskText.toLowerCase().includes(normilizedFilterValue)
-    );
+    const normalizedFilterValue = filterValue?.toLowerCase() || ""; // console.log("normilizedFilterValue: ", normilizedFilterValue);
+    // console.log("Filter Value:", filterValue); // Log to check if filterValue updates
+    // return tasks;
+    if (normalizedFilterValue) {
+      return tasks.filter(
+        (task) =>
+          task.title.toLowerCase().includes(normalizedFilterValue) ||
+          task.taskText.toLowerCase().includes(normalizedFilterValue)
+      );
+    }
+    return tasks;
+    // console.log("Tasks:", tasks); // Log to check if tasks are updated
   }
 );
