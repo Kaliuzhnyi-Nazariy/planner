@@ -59,18 +59,25 @@ const PlannerDesc = () => {
 
   const [prevTasksList, setPrevTasksList] = useState(tasksList);
 
+  // useEffect(() => {
+  //   if (JSON.stringify(tasksList) !== JSON.stringify(prevTasksList)) {
+  //     setPrevTasksList(tasksList);
+  //     dispatch(getTasksByDate({ date: datePicked }));
+  //   }
+  // }, [prevTasksList, tasksList]);
+
   useEffect(() => {
-    if (JSON.stringify(tasksList) !== JSON.stringify(prevTasksList)) {
-      setPrevTasksList(tasksList);
+    if (JSON.stringify(filteredList) !== JSON.stringify(prevTasksList)) {
+      setPrevTasksList(filteredList);
+      console.log(filteredList);
       dispatch(getTasksByDate({ date: datePicked }));
     }
-  }, [prevTasksList, tasksList]);
+  }, [prevTasksList, filteredList]);
 
   useEffect(() => {
     // dispatch(getAllTasks());
     // fetchMarkerByDate();
     dispatch(getTasksByDate({ date: datePicked }));
-    console.log("filtered list: ", filteredList);
     setPrevTasksList(tasksList);
   }, [dispatch, datePicked]);
 
@@ -110,8 +117,8 @@ const PlannerDesc = () => {
       }}
     >
       <ul className="relative">
-        {tasksList
-          ? tasksList.map((t) => (
+        {filteredList
+          ? filteredList.map((t) => (
               <li
                 key={t._id}
                 onClick={(e) => {
