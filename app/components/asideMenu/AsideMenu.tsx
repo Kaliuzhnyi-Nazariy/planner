@@ -13,7 +13,7 @@ const AsideMenu = () => {
 
   useEffect(() => {
     dispatch(refreshUser());
-  }, [dispatch]);
+  }, []);
 
   return (
     <aside className="bg-black text-white w-20 flex flex-col items-center h-[100vh]">
