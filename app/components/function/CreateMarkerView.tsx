@@ -36,7 +36,7 @@ export interface MarkerProps {
 }
 
 const CreateMarkerView = ({ title, taskText }: MarkerProps) => {
-  console.log({ title, taskText });
+  // console.log({ title, taskText });
   return (
     <div
       className="w-[226px] h-min-[250px] bg-yellow-200 flex flex-col p-2 "

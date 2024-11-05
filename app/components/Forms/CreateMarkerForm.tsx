@@ -22,13 +22,13 @@ export const CreateMarkerForm = ({ onClose, position }: Prop) => {
   const dispatch = useAppDispatch();
 
   const handleSubmitingForm = async (values: Values) => {
-    console.log({
-      username: values.titleOfMarker,
-      textOfTasks: values.textOfTask,
-      date: localStorage.getItem("date"),
-      x: position.xPos,
-      y: position.yPos,
-    });
+    // console.log({
+    //   username: values.titleOfMarker,
+    //   textOfTasks: values.textOfTask,
+    //   date: localStorage.getItem("date"),
+    //   x: position.xPos,
+    //   y: position.yPos,
+    // });
     const addTaskValues = {
       title: values.titleOfMarker,
       taskText: values.textOfTask,
