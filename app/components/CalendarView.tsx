@@ -6,6 +6,12 @@ import React from "react";
 import { setDate } from "@/redux/features/date/date-slice";
 import { useAppDispatch } from "@/redux/hooks";
 
+export interface IValue {
+  day: number;
+  year: number;
+  month: number;
+}
+
 const CalendarView = () => {
   const dispatch = useAppDispatch();
   const [calendarIsOpen, setCalendarIsOpen] = useState(false);
@@ -17,7 +23,7 @@ const CalendarView = () => {
 
   const currentDate = value.year + "-" + value.month + "-" + value.day;
 
-  const chechCurrDay = (value) => {
+  const chechCurrDay = (value: IValue) => {
     if (value.day.toString().length === 1) {
       return value.year + "-" + value.month + "-" + "0" + value.day;
     } else {
