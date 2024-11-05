@@ -13,6 +13,7 @@ import persistStore from "redux-persist/es/persistStore";
 import storage from "redux-persist/lib/storage";
 import { markerReducer } from "./features/MarkersPlan/markers-slice";
 import { dateReducer } from "./features/date/date-slice";
+import { filterReducer } from "./features/MarkersPlan/filter-slice";
 
 const persistedAuthConfig = {
   key: "auth",
@@ -27,6 +28,7 @@ export const store = configureStore({
     auth: persistedAuth,
     markers: markerReducer,
     date: dateReducer,
+    filter: filterReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
