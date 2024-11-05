@@ -3,6 +3,7 @@ import React from "react";
 import AsideMenu from "../asideMenu/AsideMenu";
 import CalendarView from "../CalendarView";
 import DashboardLayoutAddTaskButton from "./DashboardLayoutAddTaskButton/DashboardLayoutAddTaskButton";
+import SearchField from "./SearchField";
 
 const AppLayout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -12,11 +13,7 @@ const AppLayout = ({ children }: { children: React.ReactNode }) => {
         <div className="bg-white w-full h-16 flex items-center justify-around">
           <label>
             <span>Search: </span>
-            <input
-              type="text"
-              className="border-b-2 border-b-orange-500"
-              placeholder="Search..."
-            />
+            <SearchField />
           </label>
           <div className="relative">
             <CalendarView />
