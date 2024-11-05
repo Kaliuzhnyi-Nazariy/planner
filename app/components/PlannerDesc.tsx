@@ -11,7 +11,10 @@ import {
   updateTask,
 } from "@/redux/features/MarkersPlan/marker-operations";
 import { useSelector } from "react-redux";
-import { selectTasks } from "@/redux/features/MarkersPlan/selectors";
+import {
+  filteredTasks,
+  selectTasks,
+} from "@/redux/features/MarkersPlan/selectors";
 import CreateMarkerView from "./function/CreateMarkerView";
 import { UpdateMarkerForm } from "./Forms/UpdateMarkerForm";
 import { selectDate } from "@/redux/features/date/selectors";
@@ -50,13 +53,25 @@ const PlannerDesc = () => {
 
   const dispatch = useAppDispatch();
 
-  const tasksTitle = useSelector(selectTasks);
+  const tasksList = useSelector(selectTasks);
   const datePicked = useSelector(selectDate);
+  const filteredList = useSelector(filteredTasks);
+
+  const [prevTasksList, setPrevTasksList] = useState(tasksList);
+
+  useEffect(() => {
+    if (JSON.stringify(tasksList) !== JSON.stringify(prevTasksList)) {
+      setPrevTasksList(tasksList);
+      dispatch(getTasksByDate({ date: datePicked }));
+    }
+  }, [prevTasksList, tasksList]);
 
   useEffect(() => {
     // dispatch(getAllTasks());
     // fetchMarkerByDate();
     dispatch(getTasksByDate({ date: datePicked }));
+    console.log("filtered list: ", filteredList);
+    setPrevTasksList(tasksList);
   }, [dispatch, datePicked]);
 
   // useEffect(() => {
@@ -75,7 +90,7 @@ const PlannerDesc = () => {
   //   //   })
   //   // );
 
-  //   // console.log(tasksTitle);
+  //   // console.log(tasksList);
 
   //   // console.log("xPos: ", xPos);
   // }, []);
@@ -89,13 +104,14 @@ const PlannerDesc = () => {
     <div
       className="w-full h-full relative overflow-hidden overflow-y-hidden"
       onClick={(e) => {
+        console.log(e);
         createAPlan(e);
         handleOpen();
       }}
     >
       <ul className="relative">
-        {tasksTitle
-          ? tasksTitle.map((t) => (
+        {tasksList
+          ? tasksList.map((t) => (
               <li
                 key={t._id}
                 onClick={(e) => {
@@ -104,7 +120,7 @@ const PlannerDesc = () => {
                   handleOpenUpdate();
                 }}
                 style={{ top: t.coordinates.y, left: t.coordinates.x }}
-                className="absolute w-[226px] h-min-[250px] border-1 border-red-500 group" // Add `group` here
+                className="absolute w-[226px] h-min-[250px] group"
               >
                 <div className="absolute top-0 right-0 invisible group-hover:visible flex gap-1 p-1">
                   <button
