@@ -21,10 +21,8 @@ export const getTasksByDate = createAsyncThunk<
 >("markers/getByDate", async ({ date }, thunkAPI) => {
   try {
     const res = await axios.get(`/plans/byDate/${date}`);
-    console.log(`/plans/byDate/${date}`);
     return res.data;
   } catch (error: any) {
-    console.log(error);
     thunkAPI.rejectWithValue(error.message);
   }
 });
@@ -57,7 +55,7 @@ export const addTask = createAsyncThunk<
 
 export const updateTask = createAsyncThunk<
   Marker,
-  { id: string; newMarkerData: newMarkerData }
+  { id: string | undefined; newMarkerData: newMarkerData }
 >("markers/updateMarker", async ({ id, newMarkerData }, thunkAPI) => {
   try {
     const res = await axios.put(`/plans/${id}`, newMarkerData);
@@ -69,9 +67,9 @@ export const updateTask = createAsyncThunk<
 
 export const deleteMarker = createAsyncThunk<
   void,
-  { id: string },
+  { id: string | undefined },
   { rejectValue: any }
->("markers/delete", async (id, thunkAPI) => {
+>("markers/delete", async ({ id }, thunkAPI) => {
   try {
     const res = await axios.delete(`/plans/${id}`);
     return res.data;
