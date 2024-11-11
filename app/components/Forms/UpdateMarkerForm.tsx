@@ -21,7 +21,7 @@ interface Values {
 
 type Prop = {
   onClose: () => void;
-  info: Marker;
+  info: Marker | null;
 };
 
 export const UpdateMarkerForm = ({ onClose, info }: Prop) => {
@@ -41,7 +41,7 @@ export const UpdateMarkerForm = ({ onClose, info }: Prop) => {
   };
 
   const [dateValue, setDateValue] = useState(() => {
-    const formattedDate = info.date
+    const formattedDate = info?.date
       ? formatDateString(info.date) // Format info.date to ensure ISO format
       : new Date().toLocaleDateString("fr-CA");
     return parseDate(formattedDate);
@@ -58,7 +58,7 @@ export const UpdateMarkerForm = ({ onClose, info }: Prop) => {
   const handleSubmitingForm = async (values: Values) => {
     await dispatch(
       updateTask({
-        id: info._id,
+        id: info?._id,
         newMarkerData: {
           title: values.titleOfMarker,
           taskText: values.textOfTask,
@@ -71,7 +71,7 @@ export const UpdateMarkerForm = ({ onClose, info }: Prop) => {
 
   return (
     <div
-      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-40"
+      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[80] overflow-hidden "
       onClick={(e) => {
         onClose();
         e.stopPropagation();
@@ -85,7 +85,7 @@ export const UpdateMarkerForm = ({ onClose, info }: Prop) => {
           className="absolute top-2 right-5 "
           onClick={(e) => {
             e.stopPropagation();
-            dispatch(deleteMarker(info._id));
+            dispatch(deleteMarker({ id: info?._id }));
             onClose();
           }}
         >
@@ -93,8 +93,8 @@ export const UpdateMarkerForm = ({ onClose, info }: Prop) => {
         </button>
         <Formik
           initialValues={{
-            titleOfMarker: info.title,
-            textOfTask: info.taskText,
+            titleOfMarker: info?.title || "",
+            textOfTask: info?.taskText || "",
           }}
           onSubmit={(
             values: Values,
