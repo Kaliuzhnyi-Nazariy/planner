@@ -11,7 +11,7 @@ const AppLayout = ({ children }: { children: React.ReactNode }) => {
       <AsideMenu />
       <div className="w-full">
         <div className="bg-white w-full h-16 flex items-center justify-around">
-          <label>
+          <label className="hidden sm:block">
             <span>Search: </span>
             <SearchField />
           </label>
@@ -20,7 +20,7 @@ const AppLayout = ({ children }: { children: React.ReactNode }) => {
           </div>
           <DashboardLayoutAddTaskButton />
         </div>
-        <div className="bg-gray-100 w-full h-[91.68%]">{children}</div>
+        <div className="bg-gray-100 w-full h-[95.68%]">{children}</div>
       </div>
     </main>
   );
