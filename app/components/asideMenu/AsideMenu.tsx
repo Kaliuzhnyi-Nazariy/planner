@@ -16,35 +16,36 @@ const AsideMenu = () => {
   }, []);
 
   return (
-    <aside className="bg-black text-white w-20 flex flex-col items-center h-[100vh]">
-      <ul className="mt-8 flex flex-col gap-5">
+    // <aside className="bg-black text-white w-20 flex flex-col items-center h-[100vh]">
+    <aside className="bg-black py-2 text-white w-full absolute bottom-0  flex items-center justify-between px-12 lg:relative lg:w-20 lg:h-[100vh] lg:flex-col lg:py-0">
+      {/* <ul className="mt-8 flex flex-col gap-5"> w-full */}
+      <ul className="lg:mt-8 flex w-full justify-between lg: lg:flex-col gap-5 items-center">
         <li>
           <button
             className="border-2 w-14 h-14 rounded-full flex justify-center items-center border-white bg-white bg-opacity-20 p-3 transition-all hover:bg-opacity-100"
             onClick={() => {
               router.replace("/home");
-              console.log("🏠");
             }}
           >
             <FaHome />
           </button>
         </li>
-        <li>
+        <li className=" lg:ml-0 lg:min-w-none lg:max-w-none">
           <button
-            className="border-2 w-14 h-14 rounded-full flex justify-center items-center border-white bg-white bg-opacity-20 p-3 transition-all hover:bg-opacity-100"
+            className="border-2 w-14 h-14 rounded-full flex justify-center items-center border-white bg-white bg-opacity-20 p-3 transition-all hover:bg-opacity-100 "
             onClick={() => {
               router.replace("/me");
-              console.log("👳🏻‍♂️");
             }}
           >
             <FaUser />
           </button>
         </li>
+        <li className=" w-14 h-14 flex justify-center items-center lg:ml-0 lg:min-w-none lg:hidden">
+          <LogOutButton />
+        </li>
       </ul>
-      {/* <button className="mt-auto mb-10" onClick={() => console.log("exit")}>
-        <IoMdExit />
-      </button> */}
-      <div className="mt-auto mb-10">
+
+      <div className="lg:mt-auto lg:mb-10 hidden lg:block">
         <LogOutButton />
       </div>
     </aside>
