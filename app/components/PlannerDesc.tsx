@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import CreateBlock from "./function/CreateBlock";
 import { CreateMarkerForm } from "./Forms/CreateMarkerForm";
 import { useAppDispatch } from "@/redux/hooks";
@@ -18,6 +18,9 @@ import {
 import CreateMarkerView from "./function/CreateMarkerView";
 import { UpdateMarkerForm } from "./Forms/UpdateMarkerForm";
 import { selectDate } from "@/redux/features/date/selectors";
+import { Marker } from "@/redux/features/MarkersPlan/typesOrInterfaces";
+import HoverButtons from "./HoverButtons/HoverButtons";
+import MobView from "./views/MobView/MobView";
 
 interface BlockPosition {
   x: number;
@@ -30,7 +33,7 @@ const PlannerDesc = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [updateModal, setUpdateModal] = useState(false);
 
-  const [userInfo, setUserInfo] = useState({});
+  const [userInfo, setUserInfo] = useState<Marker | null>(null);
 
   const [xPos, setXPos] = useState(0);
   const [yPos, setYPos] = useState(0);
@@ -59,48 +62,17 @@ const PlannerDesc = () => {
 
   const [prevTasksList, setPrevTasksList] = useState(tasksList);
 
-  // useEffect(() => {
-  //   if (JSON.stringify(tasksList) !== JSON.stringify(prevTasksList)) {
-  //     setPrevTasksList(tasksList);
-  //     dispatch(getTasksByDate({ date: datePicked }));
-  //   }
-  // }, [prevTasksList, tasksList]);
-
   useEffect(() => {
     if (JSON.stringify(filteredList) !== JSON.stringify(prevTasksList)) {
       setPrevTasksList(filteredList);
-      console.log(filteredList);
       dispatch(getTasksByDate({ date: datePicked }));
     }
   }, [prevTasksList, filteredList]);
 
   useEffect(() => {
-    // dispatch(getAllTasks());
-    // fetchMarkerByDate();
     dispatch(getTasksByDate({ date: datePicked }));
     setPrevTasksList(tasksList);
   }, [dispatch, datePicked]);
-
-  // useEffect(() => {
-  //   // setXPos(250);
-  //   // setYPos(419);
-
-  //   console.log(dateForMarkers);
-
-  //   // dispatch(
-  //   //   addTask({
-  //   //     title: "title task created through useEffect",
-  //   //     taskText: "taskText task created through useEffect",
-  //   //     date: dateForMarkers,
-  //   //     x: 554,
-  //   //     y: 556,
-  //   //   })
-  //   // );
-
-  //   // console.log(tasksList);
-
-  //   // console.log("xPos: ", xPos);
-  // }, []);
 
   const createAPlan = (e: any) => {
     setXPos(e.screenX);
@@ -108,84 +80,79 @@ const PlannerDesc = () => {
   };
 
   return (
-    <div
-      className="w-full h-full relative overflow-hidden overflow-y-hidden"
-      onClick={(e) => {
-        console.log(e);
-        createAPlan(e);
-        handleOpen();
-      }}
-    >
-      <ul className="relative">
-        {filteredList
-          ? filteredList.map((t) => (
-              <li
-                key={t._id}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setUserInfo(t);
-                  handleOpenUpdate();
-                }}
-                style={{ top: t.coordinates.y, left: t.coordinates.x }}
-                className="absolute w-[226px] h-min-[250px] group"
-              >
-                <div className="absolute top-0 right-0 invisible group-hover:visible flex gap-1 p-1">
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      dispatch(deleteMarker(t._id));
-                    }}
-                  >
-                    del
-                  </button>
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setUserInfo(t);
-                      handleOpenUpdate();
-                    }}
-                  >
-                    upd
-                  </button>
-                </div>
-                <CreateMarkerView
-                  id={t._id}
-                  title={t.title}
-                  taskText={t.taskText}
-                />
-              </li>
-            ))
-          : ""}
-      </ul>{" "}
-      {isModalOpen ? (
-        <div
-          className="bg-slate-700 absolute w-full h-full top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-50"
-          onClick={(e) => {
-            handleClose();
-            e.stopPropagation();
-          }}
-        >
-          <CreateMarkerForm onClose={handleClose} position={{ xPos, yPos }} />
-        </div>
-      ) : (
-        ""
-      )}
-      {updateModal ? (
-        <>
-          <div
-            className="bg-slate-700 absolute w-full h-full top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-50"
-            onClick={(e) => {
-              handleCloseUpdate();
-              e.stopPropagation();
-            }}
-          >
-            <UpdateMarkerForm onClose={handleCloseUpdate} info={userInfo} />
-          </div>
-        </>
-      ) : (
-        ""
-      )}
+    <div className="block lg:hidden overflow-y-hidden">
+      <MobView />
     </div>
+    // <div
+    //   className="w-full  relative overflow-hidden overflow-y-hidden h-[82.5vh] lg:h-full"
+    //   onClick={(e) => {
+    //     console.log(e);
+    //     createAPlan(e);
+    //     handleOpen();
+    //   }}
+    // >
+    //   {!filteredList ||
+    //     (filteredList.length === 0 && (
+    //       <div className="absolute top-[50%] left-[50%] text-gray-400">
+    //         No markers
+    //       </div>
+    //     ))}
+    //   <ul className="relative">
+    //     {filteredList
+    //       ? filteredList.map((t) => (
+    //           <li
+    //             key={t._id}
+    //             onClick={(e) => {
+    //               e.stopPropagation();
+    //               setUserInfo(t);
+    //               handleOpenUpdate();
+    //             }}
+    //             style={{ top: t.coordinates.y, left: t.coordinates.x }}
+    //             className="absolute w-[226px] h-min-[250px] group"
+    //           >
+    //             <HoverButtons
+    //               setUserFunc={setUserInfo}
+    //               onOpenUpd={handleOpenUpdate}
+    //               task={t}
+    //             />
+    //             <CreateMarkerView
+    //               id={t._id}
+    //               title={t.title}
+    //               taskText={t.taskText}
+    //             />
+    //           </li>
+    //         ))
+    //       : ""}
+    //   </ul>
+    //   {isModalOpen ? (
+    //     <div
+    //       className="bg-slate-700 absolute w-full h-full top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-50"
+    //       onClick={(e) => {
+    //         handleClose();
+    //         e.stopPropagation();
+    //       }}
+    //     >
+    //       <CreateMarkerForm onClose={handleClose} position={{ xPos, yPos }} />
+    //     </div>
+    //   ) : (
+    //     ""
+    //   )}
+    //   {updateModal ? (
+    //     <>
+    //       <div
+    //         className="bg-slate-700 absolute w-full h-full top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-50"
+    //         onClick={(e) => {
+    //           handleCloseUpdate();
+    //           e.stopPropagation();
+    //         }}
+    //       >
+    //         <UpdateMarkerForm onClose={handleCloseUpdate} info={userInfo} />
+    //       </div>
+    //     </>
+    //   ) : (
+    //     ""
+    //   )}
+    // </div>
   );
 };
 
