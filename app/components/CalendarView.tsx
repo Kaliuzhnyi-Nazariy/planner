@@ -53,7 +53,7 @@ const CalendarView = () => {
           onClick={(e) => {
             e.stopPropagation();
           }}
-          className="absolute top-12 left-10 translate-x-[-50%] z-40 bg-white shadow-lg min-w-[280px] rounded-lg p-2 border border-orange-500"
+          className="absolute top-12 left-10 translate-x-[-25%] min-[610px]:translate-x-[-50%] z-40 bg-white shadow-lg min-w-[280px] rounded-lg p-2 border border-orange-500"
           classNames={{
             base: "content-between color-orange-500",
             prevButton: "calendar-prev-button",
