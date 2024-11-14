@@ -17,7 +17,7 @@ const AsideMenu = () => {
 
   return (
     // <aside className="bg-black text-white w-20 flex flex-col items-center h-[100vh]">
-    <aside className="bg-black py-2 text-white w-full absolute bottom-0  flex items-center justify-between px-12 lg:relative lg:w-20 lg:h-[100vh] lg:flex-col lg:py-0">
+    <aside className="bg-black py-2 text-white w-full absolute bottom-0  flex items-center justify-between px-12 z-50 lg:relative lg:w-20 lg:h-[100vh] lg:flex-col lg:py-0">
       {/* <ul className="mt-8 flex flex-col gap-5"> w-full */}
       <ul className="lg:mt-8 flex w-full justify-between lg: lg:flex-col gap-5 items-center">
         <li>

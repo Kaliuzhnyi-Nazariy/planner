@@ -71,7 +71,7 @@ export const UpdateMarkerForm = ({ onClose, info }: Prop) => {
 
   return (
     <div
-      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[80] overflow-hidden "
+      className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[800] overflow-hidden "
       onClick={(e) => {
         onClose();
         e.stopPropagation();

@@ -37,7 +37,8 @@ const DashboardLayoutAddTaskButton = () => {
       <button onClick={handleOpen}>add todo</button>
       {isModalOpen ? (
         <div
-          className="bg-slate-700 absolute w-full h-full top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-50"
+          // className="bg-slate-700 absolute w-full h-full top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-50"
+          className="bg-slate-700 absolute w-full h-full top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-[800]"
           onClick={(e) => {
             handleClose();
             e.stopPropagation();
