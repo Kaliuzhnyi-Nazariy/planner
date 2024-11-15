@@ -1,18 +1,16 @@
 import React, { useState } from "react";
 import { UpdateMarkerForm } from "../../Forms/UpdateMarkerForm";
 import { CreateMarkerForm } from "../../Forms/CreateMarkerForm";
-import CreateMarkerView from "../../function/CreateMarkerView";
-import HoverButtons from "../../HoverButtons/HoverButtons";
 import { Marker } from "@/redux/features/MarkersPlan/typesOrInterfaces";
 import { useSelector } from "react-redux";
 import { filteredTasks } from "@/redux/features/MarkersPlan/selectors";
+import LiItem from "./LiItem/LiItem";
 
 const DescView = () => {
   const filteredList = useSelector(filteredTasks);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [updateModal, setUpdateModal] = useState(false);
-
   const [userInfo, setUserInfo] = useState<Marker | null>(null);
 
   const [xPos, setXPos] = useState(0);
@@ -35,12 +33,13 @@ const DescView = () => {
   };
 
   const createAPlan = (e: any) => {
-    setXPos(e.screenX);
-    setYPos(e.screenY);
+    console.log(e);
+    setXPos(e.pageX);
+    setYPos(e.pageY);
   };
   return (
     <div
-      className="w-full  relative overflow-hidden overflow-y-hidden h-[82.5vh]"
+      className="w-full  relative 2xl:overflow-hidden overflow-hidden min-h-[92vh]"
       onClick={(e) => {
         console.log(e);
         createAPlan(e);
@@ -56,27 +55,12 @@ const DescView = () => {
       <ul className="relative">
         {filteredList
           ? filteredList.map((t) => (
-              <li
+              <LiItem
+                task={t}
+                onOpen={handleOpenUpdate}
+                setUserInfo={setUserInfo}
                 key={t._id}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setUserInfo(t);
-                  handleOpenUpdate();
-                }}
-                style={{ top: t.coordinates.y, left: t.coordinates.x }}
-                className="absolute w-[226px] h-min-[250px] group"
-              >
-                <HoverButtons
-                  setUserFunc={setUserInfo}
-                  onOpenUpd={handleOpenUpdate}
-                  task={t}
-                />
-                <CreateMarkerView
-                  id={t._id}
-                  title={t.title}
-                  taskText={t.taskText}
-                />
-              </li>
+              />
             ))
           : ""}
       </ul>
