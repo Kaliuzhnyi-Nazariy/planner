@@ -1,7 +1,7 @@
 "use client";
 
+import { MdDeleteForever } from "react-icons/md";
 import {
-  addTask,
   deleteMarker,
   updateTask,
 } from "@/redux/features/MarkersPlan/marker-operations";
@@ -9,10 +9,12 @@ import { Marker } from "@/redux/features/MarkersPlan/typesOrInterfaces";
 import { useAppDispatch } from "@/redux/hooks";
 import { Formik, Field, Form, FormikHelpers } from "formik";
 import { useState } from "react";
-// import CalendarView from "../CalendarView";
 import { DatePicker } from "@nextui-org/react";
 import { parseDate } from "@internationalized/date";
 import { IValue } from "../CalendarView";
+import toast from "react-hot-toast";
+import { useSelector } from "react-redux";
+import { selectMarkerError } from "@/redux/features/MarkersPlan/selectors";
 
 interface Values {
   titleOfMarker: string;
@@ -27,13 +29,11 @@ type Prop = {
 export const UpdateMarkerForm = ({ onClose, info }: Prop) => {
   const dispatch = useAppDispatch();
 
-  console.log(info);
+  const err = useSelector(selectMarkerError);
 
-  // console.log(parseDate(info.date));
-
-  // const [dateValue, setDateValue] = useState(() => {
-  //   return parseDate(info.date || new Date().toLocaleDateString("fr-CA"));
-  // });
+  if (err) {
+    toast.error(err);
+  }
 
   const formatDateString = (dateString: string) => {
     const [year, month, day] = dateString.split("-");
@@ -42,7 +42,7 @@ export const UpdateMarkerForm = ({ onClose, info }: Prop) => {
 
   const [dateValue, setDateValue] = useState(() => {
     const formattedDate = info?.date
-      ? formatDateString(info.date) // Format info.date to ensure ISO format
+      ? formatDateString(info.date)
       : new Date().toLocaleDateString("fr-CA");
     return parseDate(formattedDate);
   });
@@ -82,14 +82,15 @@ export const UpdateMarkerForm = ({ onClose, info }: Prop) => {
         onClick={(e) => e.stopPropagation()}
       >
         <button
-          className="absolute top-2 right-5 "
+          className="absolute top-3 right-5 "
           onClick={(e) => {
             e.stopPropagation();
             dispatch(deleteMarker({ id: info?._id }));
             onClose();
+            toast.success("Marker deleted!");
           }}
         >
-          del
+          <MdDeleteForever className="opacity-40 hover:opacity-100 transition-all" />
         </button>
         <Formik
           initialValues={{
