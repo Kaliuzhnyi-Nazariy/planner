@@ -8,7 +8,11 @@ import React, { useState } from "react";
 import FormView from "./FormView/FormView";
 import FormInput from "./FormInput/FormInput";
 import { useSelector } from "react-redux";
-import { selectUserIsLoading } from "@/redux/features/auth/selectors";
+import {
+  selectUserError,
+  selectUserIsLoading,
+} from "@/redux/features/auth/selectors";
+import toast from "react-hot-toast";
 
 const SignupForm: React.FC = () => {
   const [name, setName] = useState<string>("");
@@ -19,10 +23,12 @@ const SignupForm: React.FC = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const isLoading = useSelector(selectUserIsLoading);
+  const isError = useSelector(selectUserError);
 
   const handleSubmit = () => {
     if (password !== confirmPassword) {
-      throw new Error("Passwords are not matched!");
+      toast.error("Passwords are not matched!");
+      return;
     } else {
       dispatch(
         register({
@@ -32,6 +38,9 @@ const SignupForm: React.FC = () => {
           confirmPassword: confirmPassword,
         })
       );
+      if (isError) {
+        toast.error(isError);
+      }
     }
   };
 
