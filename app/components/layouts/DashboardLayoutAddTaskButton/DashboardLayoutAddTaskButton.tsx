@@ -1,6 +1,7 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { CreateMarkerForm } from "../../Forms/CreateMarkerForm";
+import { IoIosAddCircleOutline } from "react-icons/io";
 
 const DashboardLayoutAddTaskButton = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -34,7 +35,12 @@ const DashboardLayoutAddTaskButton = () => {
 
   return (
     <div>
-      <button onClick={handleOpen}>add todo</button>
+      <button
+        onClick={handleOpen}
+        className="w-9 flex justify-center items-center h-[64px]"
+      >
+        <IoIosAddCircleOutline />
+      </button>
       {isModalOpen ? (
         <div
           // className="bg-slate-700 absolute w-full h-full top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-50"

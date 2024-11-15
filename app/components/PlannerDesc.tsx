@@ -11,11 +11,6 @@ import { selectDate } from "@/redux/features/date/selectors";
 import MobView from "./views/MobView/MobView";
 import DescView from "./views/DescView/DescView";
 
-interface BlockPosition {
-  x: number;
-  y: number;
-}
-
 const PlannerDesc = () => {
   const dispatch = useAppDispatch();
 

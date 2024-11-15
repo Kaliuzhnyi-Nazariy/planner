@@ -6,11 +6,13 @@ import FormView from "./FormView/FormView";
 import FormInput from "./FormInput/FormInput";
 import { useSelector } from "react-redux";
 import {
+  selectUserError,
   selectUserIsAuth,
   selectUserIsLoading,
 } from "@/redux/features/auth/selectors";
 import { useAppDispatch } from "@/redux/hooks";
 import { login } from "@/redux/features/auth/auth-operations";
+import toast from "react-hot-toast";
 
 const LoginForm = () => {
   const [email, setEmail] = useState<string>("");
@@ -20,6 +22,7 @@ const LoginForm = () => {
   const dispatch = useAppDispatch();
   const isLoading = useSelector(selectUserIsLoading);
   const isAuth = useSelector(selectUserIsAuth);
+  const isError = useSelector(selectUserError);
 
   useEffect(() => {
     if (isAuth) {
@@ -29,9 +32,15 @@ const LoginForm = () => {
 
   const handleLoginSubmit = async () => {
     try {
-      await dispatch(login({ email, password }));
-    } catch (error) {
-      console.log(error);
+      const res = await dispatch(login({ email, password }));
+      if (res?.error?.message) {
+        toast.error(res?.error?.message);
+        return;
+      }
+      console.log(isError);
+      if (isError) toast.error(isError);
+    } catch (err) {
+      console.log(err);
     }
   };
 

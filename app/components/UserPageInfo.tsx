@@ -17,6 +17,7 @@ import {
   refreshUser,
   updateAcc,
 } from "@/redux/features/auth/auth-operations";
+import toast from "react-hot-toast";
 
 const UserPageInfo = () => {
   const route = useRouter();
@@ -33,7 +34,7 @@ const UserPageInfo = () => {
   const dispatch = useAppDispatch();
 
   return (
-    <div className="flex justify-center h-full">
+    <div className="flex justify-center h-[90vh] lg:h-[100vh]">
       <div className="flex flex-col items-center my-auto justify-around h-[60%]">
         <FaRegUserCircle size={128} />
         {changeInfoMode ? (
@@ -68,7 +69,9 @@ const UserPageInfo = () => {
                   })
                 );
                 dispatch(refreshUser());
+                toast.success("User info updated successfully!");
               }}
+              className="w-[150px] px-3 py-2 rounded-2xl bg-orange-400 text-white transition-all hover:scale-110"
             >
               Save changes
             </button>
@@ -86,6 +89,7 @@ const UserPageInfo = () => {
               onClick={() => {
                 setChangeInfoMode(true);
               }}
+              className="w-[150px] px-3 py-2 rounded-2xl bg-orange-400 text-white transition-all hover:scale-110"
             >
               Update info
             </button>
@@ -94,8 +98,8 @@ const UserPageInfo = () => {
         <button
           onClick={() => {
             route.replace("/authorization/forgotPassword");
-            console.log("Change password");
           }}
+          className="w-[150px] px-3 py-2 rounded-2xl bg-orange-400 text-white transition-all hover:scale-110"
         >
           Change password
         </button>
@@ -104,7 +108,9 @@ const UserPageInfo = () => {
             console.log("Delete account");
             // dispatch(deleteAccount());
             route.replace("/authorization/signup");
+            toast.success("Account had been deleted!");
           }}
+          className="px-3 py-2 w-[150px] bg-red-500 text-white rounded-2xl hover:scale-110 transition-all"
         >
           Delete account
         </button>

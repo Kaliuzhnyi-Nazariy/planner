@@ -8,6 +8,7 @@ import { resetPasswordReq } from "@/redux/features/auth/auth-operations";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import { selectUserIsLoading } from "@/redux/features/auth/selectors";
+import toast from "react-hot-toast";
 
 const ForgotPasswordForm = () => {
   const [emailOrUsername, setEmailOrUsername] = useState("");
@@ -21,8 +22,13 @@ const ForgotPasswordForm = () => {
 
   const handleSendRequest = async () => {
     const res = await dispatch(resetPasswordReq({ emailOrUsername }));
-    setIDForRelocate(res.payload.link);
-    localStorage.setItem("IDForChangePassword", res.payload.link);
+    console.log(res);
+    if (res?.error?.message) {
+      toast.error("Something went wrong!");
+    } else {
+      setIDForRelocate(res.payload.link);
+      localStorage.setItem("IDForChangePassword", res.payload.link);
+    }
     return;
   };
 
@@ -49,7 +55,7 @@ const ForgotPasswordForm = () => {
             </button>
           ) : (
             <>
-              <p>
+              <p className="w-[220px] min-[420px]:w-full  text-center">
                 If you forgot your password do not worry! You can recover
                 password!
               </p>
@@ -65,7 +71,11 @@ const ForgotPasswordForm = () => {
                 />
               </label>
 
-              <button type="submit">Send request</button>
+              {emailOrUsername ? (
+                <button type="submit">Send request</button>
+              ) : (
+                "Enter email or username"
+              )}
             </>
           )}
         </>

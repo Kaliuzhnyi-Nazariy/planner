@@ -4,6 +4,7 @@ import { addTask } from "@/redux/features/MarkersPlan/marker-operations";
 import { useAppDispatch } from "@/redux/hooks";
 import { Formik, Field, Form, FormikHelpers } from "formik";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 interface Values {
   titleOfMarker: string;
@@ -38,6 +39,7 @@ export const CreateMarkerForm = ({ onClose, position }: Prop) => {
     };
     await dispatch(addTask(addTaskValues));
     onClose();
+    toast.success("Marker created!");
   };
 
   return (

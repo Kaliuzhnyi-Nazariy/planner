@@ -6,6 +6,7 @@ import FormInput from "./FormInput/FormInput";
 import { useAppDispatch } from "@/redux/hooks";
 import { resetPassword } from "@/redux/features/auth/auth-operations";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 const NewPasswordForm = () => {
   const [newPassword, setPassword] = useState("");
@@ -20,7 +21,8 @@ const NewPasswordForm = () => {
     if (!passwordRecoverID) throw new Error("No request!");
 
     if (newPassword !== confirmNewPassword) {
-      throw new Error("Passwords do not match");
+      toast.error("Passwords do not match");
+      return;
     }
 
     dispatch(
@@ -33,6 +35,7 @@ const NewPasswordForm = () => {
     localStorage.removeItem("IDForChangePassword");
 
     router.replace("/authorization/login");
+    toast.success("Password successfully changed!");
   };
   return (
     <FormView

@@ -3,6 +3,9 @@
 import { deleteMarker } from "@/redux/features/MarkersPlan/marker-operations";
 import { Marker } from "@/redux/features/MarkersPlan/typesOrInterfaces";
 import { useAppDispatch } from "@/redux/hooks";
+import { TfiWrite } from "react-icons/tfi";
+import { MdDeleteForever } from "react-icons/md";
+import toast from "react-hot-toast";
 
 type Prop = {
   setUserFunc: (task: Marker) => void;
@@ -19,9 +22,10 @@ const HoverButtons = ({ setUserFunc, onOpenUpd, task }: Prop) => {
         onClick={(e) => {
           e.stopPropagation();
           dispatch(deleteMarker({ id: task._id }));
+          toast.success("Marker deleted!");
         }}
       >
-        del
+        <MdDeleteForever />
       </button>
       <button
         onClick={(e) => {
@@ -30,7 +34,7 @@ const HoverButtons = ({ setUserFunc, onOpenUpd, task }: Prop) => {
           onOpenUpd();
         }}
       >
-        upd
+        <TfiWrite />
       </button>
     </div>
   );
