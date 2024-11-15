@@ -48,7 +48,8 @@ const handleReject = (
   action: PayloadAction<initialStateType>
 ) => {
   state.isLoading = false;
-  state.error = action?.error;
+  // console.log(action.error.message);
+  state.error = action.error.message;
 };
 
 const authSlice = createSlice({

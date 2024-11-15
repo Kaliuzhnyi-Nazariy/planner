@@ -23,3 +23,7 @@ export const filteredTasks = createSelector(
     // console.log("Tasks:", tasks); // Log to check if tasks are updated
   }
 );
+
+export const selectMarkerError = (state: {
+  markers: { error: string | null };
+}) => state.markers.error;

@@ -24,7 +24,7 @@ const handleReject = (
   action: PayloadAction<IInitialState>
 ) => {
   state.isLoading = false;
-  state.error = action?.error;
+  state.error = action.error.message;
 };
 
 const markerSlice = createSlice({
