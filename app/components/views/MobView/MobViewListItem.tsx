@@ -4,6 +4,7 @@ import { Marker } from "@/redux/features/MarkersPlan/typesOrInterfaces";
 import { useAppDispatch } from "@/redux/hooks";
 import { deleteMarker } from "@/redux/features/MarkersPlan/marker-operations";
 import { MdDeleteForever } from "react-icons/md";
+import { TfiWrite } from "react-icons/tfi";
 
 type Props = {
   task: Marker;
@@ -45,9 +46,9 @@ const MobViewListItem = ({ task, onClickUpd, setInfoState }: Props) => {
           onClickUpd();
           window.scrollY;
         }}
-        className="col-start-4 row-span-4 sm:col-start-3 sm:col-end-4 sm:row-end-1 sm:row-auto"
+        className="col-start-4 row-span-4 sm:col-start-3 sm:col-end-4 sm:row-end-1 sm:row-auto flex justify-center items-center"
       >
-        upd
+        <TfiWrite />
       </button>
     </li>
   );
