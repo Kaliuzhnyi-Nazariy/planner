@@ -5,6 +5,7 @@ import { selectUserIsAuth } from "@/redux/features/auth/selectors";
 import { useAppDispatch } from "@/redux/hooks";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
+import toast from "react-hot-toast";
 import { IoMdExit } from "react-icons/io";
 import { useSelector } from "react-redux";
 
@@ -25,7 +26,7 @@ const LogOutButton = () => {
     <button
       onClick={() => {
         handleLogOut();
-        console.log("exit");
+        toast.success("Logged out!");
       }}
     >
       <IoMdExit />
