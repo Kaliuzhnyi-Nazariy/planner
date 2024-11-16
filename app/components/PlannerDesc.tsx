@@ -11,6 +11,7 @@ import { selectDate } from "@/redux/features/date/selectors";
 import MobView from "./views/MobView/MobView";
 import DescView from "./views/DescView/DescView";
 import { parseDate } from "@internationalized/date";
+import { setDate } from "@/redux/features/date/date-slice";
 
 const PlannerDesc = () => {
   const dispatch = useAppDispatch();
@@ -23,7 +24,10 @@ const PlannerDesc = () => {
 
   useEffect(() => {
     const localDay = new Date().toLocaleDateString("fr-CA");
-    localStorage.setItem("date", parseDate(localDay));
+    const parsedDate = parseDate(localDay);
+
+    localStorage.setItem("date", localDay.toString()); // Store ISO date string
+    dispatch(setDate(parsedDate.toString()));
   }, []);
 
   useEffect(() => {
