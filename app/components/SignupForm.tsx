@@ -8,10 +8,7 @@ import React, { useEffect, useState } from "react";
 import FormView from "./FormView/FormView";
 import FormInput from "./FormInput/FormInput";
 import { useSelector } from "react-redux";
-import {
-  selectUserError,
-  selectUserIsLoading,
-} from "@/redux/features/auth/selectors";
+import { selectUserIsLoading } from "@/redux/features/auth/selectors";
 import toast from "react-hot-toast";
 
 const SignupForm: React.FC = () => {

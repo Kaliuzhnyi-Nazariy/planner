@@ -7,20 +7,11 @@ import { useAppDispatch } from "@/redux/hooks";
 import { resetPasswordReq } from "@/redux/features/auth/auth-operations";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
-import {
-  selectUserError,
-  selectUserIsLoading,
-} from "@/redux/features/auth/selectors";
-import toast from "react-hot-toast";
+import { selectUserIsLoading } from "@/redux/features/auth/selectors";
 
 const ForgotPasswordForm = () => {
   const [emailOrUsername, setEmailOrUsername] = useState("");
   const [IDForRelocate, setIDForRelocate] = useState<null | string>(null);
-  const userError = useSelector(selectUserError);
-
-  useEffect(() => {
-    if (userError !== null) toast.error(userError);
-  }, [userError]);
 
   const router = useRouter();
 

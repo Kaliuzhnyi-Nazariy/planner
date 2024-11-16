@@ -6,7 +6,6 @@ import FormView from "./FormView/FormView";
 import FormInput from "./FormInput/FormInput";
 import { useSelector } from "react-redux";
 import {
-  selectUserError,
   selectUserIsAuth,
   selectUserIsLoading,
 } from "@/redux/features/auth/selectors";
