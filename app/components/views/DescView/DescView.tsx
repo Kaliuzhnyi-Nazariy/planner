@@ -33,7 +33,6 @@ const DescView = () => {
   };
 
   const createAPlan = (e: any) => {
-    console.log(e);
     setXPos(e.pageX);
     setYPos(e.pageY);
   };
@@ -41,7 +40,6 @@ const DescView = () => {
     <div
       className="w-full  relative 2xl:overflow-hidden overflow-hidden min-h-[92vh]"
       onClick={(e) => {
-        console.log(e);
         createAPlan(e);
         handleOpen();
       }}

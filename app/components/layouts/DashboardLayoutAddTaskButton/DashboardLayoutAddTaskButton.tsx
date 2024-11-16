@@ -12,14 +12,11 @@ const DashboardLayoutAddTaskButton = () => {
   const xPosVal = () => {
     const maxVal = window.innerWidth - 250;
     return Math.floor(Math.random() * (maxVal - 300 + 1) + 300);
-    // console.log(finalRes);
-    // return Math.floor(Math.random() * (max - min + 1)) + min;
   };
 
   const yPosVal = () => {
     const maxVal = window.innerHeight - 50;
     return Math.floor(Math.random() * (maxVal - 80 + 1) + 80);
-    // console.log(finalRes);
   };
 
   const handleOpen = () => {
@@ -43,7 +40,6 @@ const DashboardLayoutAddTaskButton = () => {
       </button>
       {isModalOpen ? (
         <div
-          // className="bg-slate-700 absolute w-full h-full top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-50"
           className="bg-slate-700 absolute w-full h-full top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-[800]"
           onClick={(e) => {
             handleClose();

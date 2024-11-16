@@ -79,7 +79,6 @@ export const deleteMarker = createAsyncThunk<
 >("markers/delete", async ({ id }, thunkAPI) => {
   try {
     const res = await axios.delete(`/plans/${id}`);
-    console.log(res);
     return res.data;
   } catch (error: any) {
     return thunkAPI.rejectWithValue(error.message);

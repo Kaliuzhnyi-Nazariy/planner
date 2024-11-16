@@ -10,8 +10,6 @@ const CreateBlock = ({ x, y }: CreateBlockProps) => {
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const x = e.clientX;
     const y = e.clientY;
-
-    console.log({ x, y });
   };
 
   return (
@@ -23,7 +21,7 @@ const CreateBlock = ({ x, y }: CreateBlockProps) => {
         >
           <div
             className=" w-full absolute h-3"
-            onDragCapture={(e) => console.log(e)}
+            // onDragCapture={(e) => console.log(e)}
           ></div>
         </div>
       ) : (

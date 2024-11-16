@@ -9,9 +9,7 @@ export const selectFilter = (state: { filter: { filter: string } }) =>
 export const filteredTasks = createSelector(
   [selectTasks, selectFilter],
   (tasks, filterValue) => {
-    const normalizedFilterValue = filterValue?.toLowerCase() || ""; // console.log("normilizedFilterValue: ", normilizedFilterValue);
-    // console.log("Filter Value:", filterValue); // Log to check if filterValue updates
-    // return tasks;
+    const normalizedFilterValue = filterValue?.toLowerCase() || "";
     if (normalizedFilterValue) {
       return tasks.filter(
         (task) =>
@@ -20,7 +18,6 @@ export const filteredTasks = createSelector(
       );
     }
     return tasks;
-    // console.log("Tasks:", tasks); // Log to check if tasks are updated
   }
 );
 

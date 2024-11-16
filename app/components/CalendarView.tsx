@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import React from "react";
 import { setDate } from "@/redux/features/date/date-slice";
 import { useAppDispatch } from "@/redux/hooks";
+import { CreateCurrDay } from "./function/CreateCurrDay";
 
 export interface IValue {
   day: number;
@@ -23,16 +24,8 @@ const CalendarView = () => {
 
   const currentDate = value.year + "-" + value.month + "-" + value.day;
 
-  const chechCurrDay = (value: IValue) => {
-    if (value.day.toString().length === 1) {
-      return value.year + "-" + value.month + "-" + "0" + value.day;
-    } else {
-      return value.year + "-" + value.month + "-" + value.day;
-    }
-  };
-
   useEffect(() => {
-    dispatch(setDate(chechCurrDay(value)));
+    dispatch(setDate(CreateCurrDay(value)));
   }, [dispatch, value]);
 
   return (

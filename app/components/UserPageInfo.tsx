@@ -58,7 +58,6 @@ const UserPageInfo = () => {
             <button
               onClick={async () => {
                 setChangeInfoMode(false);
-                console.log("Info updated", { newUsername, newEmail });
                 await dispatch(
                   updateAcc({
                     id: userId,
@@ -105,7 +104,6 @@ const UserPageInfo = () => {
         </button>
         <button
           onClick={() => {
-            console.log("Delete account");
             // dispatch(deleteAccount());
             route.replace("/authorization/signup");
             toast.success("Account had been deleted!");

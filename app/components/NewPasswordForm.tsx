@@ -42,7 +42,6 @@ const NewPasswordForm = () => {
       onSubmit={(e) => {
         e.preventDefault();
         handleSubmit();
-        console.log("new password page");
       }}
     >
       <label className="flex flex-col">

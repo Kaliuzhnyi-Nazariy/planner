@@ -10,6 +10,7 @@ import {
 import { selectDate } from "@/redux/features/date/selectors";
 import MobView from "./views/MobView/MobView";
 import DescView from "./views/DescView/DescView";
+import { parseDate } from "@internationalized/date";
 
 const PlannerDesc = () => {
   const dispatch = useAppDispatch();
@@ -19,6 +20,11 @@ const PlannerDesc = () => {
   const filteredList = useSelector(filteredTasks);
 
   const [prevTasksList, setPrevTasksList] = useState(tasksList);
+
+  useEffect(() => {
+    const localDay = new Date().toLocaleDateString("fr-CA");
+    localStorage.setItem("date", parseDate(localDay));
+  }, []);
 
   useEffect(() => {
     if (JSON.stringify(filteredList) !== JSON.stringify(prevTasksList)) {
