@@ -7,12 +7,20 @@ import { useAppDispatch } from "@/redux/hooks";
 import { resetPasswordReq } from "@/redux/features/auth/auth-operations";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
-import { selectUserIsLoading } from "@/redux/features/auth/selectors";
+import {
+  selectUserError,
+  selectUserIsLoading,
+} from "@/redux/features/auth/selectors";
 import toast from "react-hot-toast";
 
 const ForgotPasswordForm = () => {
   const [emailOrUsername, setEmailOrUsername] = useState("");
   const [IDForRelocate, setIDForRelocate] = useState<null | string>(null);
+  const userError = useSelector(selectUserError);
+
+  useEffect(() => {
+    if (userError !== null) toast.error(userError);
+  }, [userError]);
 
   const router = useRouter();
 
@@ -22,13 +30,8 @@ const ForgotPasswordForm = () => {
 
   const handleSendRequest = async () => {
     const res = await dispatch(resetPasswordReq({ emailOrUsername }));
-    console.log(res);
-    if (res?.error?.message) {
-      toast.error("Something went wrong!");
-    } else {
-      setIDForRelocate(res.payload.link);
-      localStorage.setItem("IDForChangePassword", res.payload.link);
-    }
+    setIDForRelocate(res.payload.link);
+    localStorage.setItem("IDForChangePassword", res.payload.link);
     return;
   };
 

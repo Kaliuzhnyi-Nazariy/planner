@@ -54,7 +54,6 @@ const handleReject = (
   action: PayloadAction<IInitialStateWithError>
 ) => {
   state.isLoading = false;
-  console.log(action.error.message);
   state.error = action.error.message;
 };
 

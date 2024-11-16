@@ -22,11 +22,6 @@ const LoginForm = () => {
   const dispatch = useAppDispatch();
   const isLoading = useSelector(selectUserIsLoading);
   const isAuth = useSelector(selectUserIsAuth);
-  const isError = useSelector(selectUserError);
-
-  useEffect(() => {
-    if (isError !== null) toast.error(isError);
-  }, [isError]);
 
   useEffect(() => {
     if (isAuth) {
@@ -35,11 +30,14 @@ const LoginForm = () => {
   }, [router, isAuth]);
 
   const handleLoginSubmit = async () => {
-    try {
-      await dispatch(login({ email, password }));
-    } catch (err) {
-      console.log(err);
-    }
+    await dispatch(login({ email, password }))
+      .unwrap()
+      .then(() => {
+        toast.success("Welcome");
+      })
+      .catch((err) => {
+        toast.error(err);
+      });
   };
 
   return (

@@ -8,7 +8,7 @@ import {
 import { Marker } from "@/redux/features/MarkersPlan/typesOrInterfaces";
 import { useAppDispatch } from "@/redux/hooks";
 import { Formik, Field, Form, FormikHelpers } from "formik";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DatePicker } from "@nextui-org/react";
 import { parseDate } from "@internationalized/date";
 import { IValue } from "../CalendarView";
@@ -29,6 +29,9 @@ type Prop = {
 export const UpdateMarkerForm = ({ onClose, info }: Prop) => {
   const dispatch = useAppDispatch();
   const err = useSelector(selectMarkerError);
+
+  // useEffect(() => {
+  // }, [err]);
 
   const formatDateString = (dateString: string) => {
     const [year, month, day] = dateString.split("-");
@@ -51,7 +54,7 @@ export const UpdateMarkerForm = ({ onClose, info }: Prop) => {
   };
 
   const handleSubmitingForm = async (values: Values) => {
-    const res = await dispatch(
+    await dispatch(
       updateTask({
         id: info?._id,
         newMarkerData: {
@@ -60,15 +63,15 @@ export const UpdateMarkerForm = ({ onClose, info }: Prop) => {
           date: chechCurrDay(dateValue),
         },
       })
-    );
-
-    console.log(err);
-
-    // if (res?.error?.message) {
-    //   toast.error(res.error.message);
-    // } else {
-    //   toast.success("Updated successfully!");
-    // }
+    )
+      .unwrap()
+      .then(() => {
+        toast.success("Marker updated!");
+      })
+      .catch((err) => {
+        toast.error(err);
+        return;
+      });
     onClose();
   };
 

@@ -23,59 +23,30 @@ const SignupForm: React.FC = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const isLoading = useSelector(selectUserIsLoading);
-  const isError = useSelector(selectUserError);
-
-  // useEffect(() => {
-  // }, [isError]);
 
   const handleSubmit = async () => {
-    // if (password !== confirmPassword) {
-    //   toast.error("Passwords are not matched!");
-    //   return;
-    // } else {
-    //   try {
-
-    //     await dispatch(
-    //       register({
-    //         username: name,
-    //         email: email,
-    //         password: password,
-    //         confirmPassword: confirmPassword,
-    //       })
-    //     );
-
-    //     toast.success("You signed up successfully!");
-    //     router.replace("/authorization/login");
-    //   } catch (err) {
-    //     console.log(err);
-    //   }
-    // }
-
-    try {
-      if (password !== confirmPassword) {
-        toast.error("Passwords are not matched!");
-        return;
-      }
-
-      await dispatch(
-        register({
-          username: name,
-          email: email,
-          password: password,
-          confirmPassword: confirmPassword,
-        })
-      );
-
-      if (isError !== null) {
-        toast.error(isError);
-        return;
-      }
-
-      toast.success("You signed up successfully!");
-      router.replace("/authorization/login");
-    } catch (err) {
-      console.log(err);
+    if (password !== confirmPassword) {
+      toast.error("Passwords are not matched!");
+      return;
     }
+
+    await dispatch(
+      register({
+        username: name,
+        email: email,
+        password: password,
+        confirmPassword: confirmPassword,
+      })
+    )
+      .unwrap()
+      .then(() => {
+        toast.success("You signed up successfully!");
+      })
+      .catch((err) => {
+        toast.error(err);
+      });
+
+    router.replace("/authorization/login");
   };
 
   return (

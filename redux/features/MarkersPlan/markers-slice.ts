@@ -21,9 +21,10 @@ const handlePending = (state: IInitialState) => {
 
 const handleReject = (
   state: IInitialState,
-  action: PayloadAction<IInitialState>
+  action: PayloadAction<{ error: { message: string } | null }>
 ) => {
   state.isLoading = false;
+
   state.error = action.error.message;
 };
 
