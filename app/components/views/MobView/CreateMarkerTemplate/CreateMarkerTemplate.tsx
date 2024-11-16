@@ -38,7 +38,7 @@ const CreateMarkerTemplate = () => {
   return (
     <>
       <li
-        className="sm:grid grid-rows-1 grid-cols-4 border-2 border-dashed border-gray-400 p-2 h-[62px] overflow-hidden hidden sm:h-[150px] sm:w-[160px]"
+        className="flex border-2 border-dashed border-gray-400 bg-gray-200/50 hover:bg-gray-200 cursor-pointer p-2 h-[62px] overflow-hidden lg:hidden sm:h-[150px] sm:w-[160px]"
         onClick={() => handleOpen()}
       >
         Create new Marker
