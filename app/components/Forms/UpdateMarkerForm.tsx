@@ -13,8 +13,6 @@ import { DatePicker } from "@nextui-org/react";
 import { parseDate } from "@internationalized/date";
 import { IValue } from "../CalendarView";
 import toast from "react-hot-toast";
-import { useSelector } from "react-redux";
-import { selectMarkerError } from "@/redux/features/MarkersPlan/selectors";
 
 interface Values {
   titleOfMarker: string;
@@ -28,12 +26,6 @@ type Prop = {
 
 export const UpdateMarkerForm = ({ onClose, info }: Prop) => {
   const dispatch = useAppDispatch();
-
-  const err = useSelector(selectMarkerError);
-
-  if (err) {
-    toast.error(err);
-  }
 
   const formatDateString = (dateString: string) => {
     const [year, month, day] = dateString.split("-");
@@ -56,7 +48,7 @@ export const UpdateMarkerForm = ({ onClose, info }: Prop) => {
   };
 
   const handleSubmitingForm = async (values: Values) => {
-    await dispatch(
+    const res = await dispatch(
       updateTask({
         id: info?._id,
         newMarkerData: {
@@ -66,6 +58,12 @@ export const UpdateMarkerForm = ({ onClose, info }: Prop) => {
         },
       })
     );
+
+    if (res?.error?.message) {
+      toast.error(res.error.message);
+    } else {
+      toast.success("Updated successfully!");
+    }
     onClose();
   };
 

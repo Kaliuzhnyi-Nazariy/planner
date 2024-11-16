@@ -25,12 +25,12 @@ const SignupForm: React.FC = () => {
   const isLoading = useSelector(selectUserIsLoading);
   const isError = useSelector(selectUserError);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (password !== confirmPassword) {
       toast.error("Passwords are not matched!");
       return;
     } else {
-      dispatch(
+      const res = await dispatch(
         register({
           username: name,
           email: email,
@@ -38,8 +38,10 @@ const SignupForm: React.FC = () => {
           confirmPassword: confirmPassword,
         })
       );
-      if (isError) {
-        toast.error(isError);
+      if (res?.error?.message) {
+        toast.error(res.error.message);
+      } else {
+        toast.success("You signed up successfully!");
       }
     }
   };
