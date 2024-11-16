@@ -30,7 +30,13 @@ const MobView = () => {
       } relative overflow-hidden  h-[80.9vh] lg:h-full`}
     >
       {/* <div className="w-full  relative overflow-hidden overflow-y-scroll h-[80.9vh] lg:h-full"> */}
-      {!filteredList || filteredList.length === 0 ? "No markers" : ""}
+      {!filteredList || filteredList.length === 0 ? (
+        <div className="absolute top-[50%] left-[50%] text-gray-400 hidden lg:block">
+          No markers
+        </div>
+      ) : (
+        ""
+      )}
       {filteredList ? (
         <ul className="grid px-4 gap-3 my-2 sm:grid-cols-3 md:grid-cols-4 ">
           {filteredList.map((task) => {

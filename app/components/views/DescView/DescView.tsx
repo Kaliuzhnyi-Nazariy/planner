@@ -48,7 +48,7 @@ const DescView = () => {
     >
       {!filteredList ||
         (filteredList.length === 0 && (
-          <div className="absolute top-[50%] left-[50%] text-gray-400">
+          <div className="absolute top-[50%] left-[50%] text-gray-400 hiiden lg:block">
             No markers
           </div>
         ))}
