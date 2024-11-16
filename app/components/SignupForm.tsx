@@ -4,7 +4,7 @@ import { register } from "@/redux/features/auth/auth-operations";
 import { useAppDispatch } from "@/redux/hooks";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import FormView from "./FormView/FormView";
 import FormInput from "./FormInput/FormInput";
 import { useSelector } from "react-redux";
@@ -25,12 +25,39 @@ const SignupForm: React.FC = () => {
   const isLoading = useSelector(selectUserIsLoading);
   const isError = useSelector(selectUserError);
 
+  // useEffect(() => {
+  // }, [isError]);
+
   const handleSubmit = async () => {
-    if (password !== confirmPassword) {
-      toast.error("Passwords are not matched!");
-      return;
-    } else {
-      const res = await dispatch(
+    // if (password !== confirmPassword) {
+    //   toast.error("Passwords are not matched!");
+    //   return;
+    // } else {
+    //   try {
+
+    //     await dispatch(
+    //       register({
+    //         username: name,
+    //         email: email,
+    //         password: password,
+    //         confirmPassword: confirmPassword,
+    //       })
+    //     );
+
+    //     toast.success("You signed up successfully!");
+    //     router.replace("/authorization/login");
+    //   } catch (err) {
+    //     console.log(err);
+    //   }
+    // }
+
+    try {
+      if (password !== confirmPassword) {
+        toast.error("Passwords are not matched!");
+        return;
+      }
+
+      await dispatch(
         register({
           username: name,
           email: email,
@@ -38,11 +65,16 @@ const SignupForm: React.FC = () => {
           confirmPassword: confirmPassword,
         })
       );
-      if (res?.error?.message) {
-        toast.error(res.error.message);
-      } else {
-        toast.success("You signed up successfully!");
+
+      if (isError !== null) {
+        toast.error(isError);
+        return;
       }
+
+      toast.success("You signed up successfully!");
+      router.replace("/authorization/login");
+    } catch (err) {
+      console.log(err);
     }
   };
 

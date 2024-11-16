@@ -1,3 +1,5 @@
+import { initialStateType } from "./auth-slice";
+
 export const selectUserID = (state: { auth: { value: { id: string } } }) =>
   state.auth.value.id;
 
@@ -20,6 +22,5 @@ export const selectUserEmail = (state: {
 export const selectUserIsLoading = (state: { auth: { isLoading: Boolean } }) =>
   state.auth.isLoading;
 
-export const selectUserError = (state: { auth: { error: null | string } }) => {
+export const selectUserError = (state: { auth: { error: String | null } }) =>
   state.auth.error;
-};

@@ -25,6 +25,10 @@ const LoginForm = () => {
   const isError = useSelector(selectUserError);
 
   useEffect(() => {
+    if (isError !== null) toast.error(isError);
+  }, [isError]);
+
+  useEffect(() => {
     if (isAuth) {
       router.replace("/home");
     }
@@ -32,13 +36,7 @@ const LoginForm = () => {
 
   const handleLoginSubmit = async () => {
     try {
-      const res = await dispatch(login({ email, password }));
-      if (res?.error?.message) {
-        toast.error(res?.error?.message);
-        return;
-      }
-      console.log(isError);
-      if (isError) toast.error(isError);
+      await dispatch(login({ email, password }));
     } catch (err) {
       console.log(err);
     }

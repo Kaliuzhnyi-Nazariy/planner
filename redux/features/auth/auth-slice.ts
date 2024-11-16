@@ -23,7 +23,7 @@ export type initialStateType = {
   value: IValue;
   token: String;
   isLoading: boolean;
-  error: null | string;
+  error: null | { message: string };
 };
 
 const initialState = {
@@ -38,6 +38,12 @@ const initialState = {
   error: null,
 } as initialStateType;
 
+export interface IInitialStateWithError {
+  error: {
+    message: string;
+  };
+}
+
 const handlePending = (state: initialStateType) => {
   state.isLoading = true;
   state.error = null;
@@ -45,10 +51,10 @@ const handlePending = (state: initialStateType) => {
 
 const handleReject = (
   state: initialStateType,
-  action: PayloadAction<initialStateType>
+  action: PayloadAction<IInitialStateWithError>
 ) => {
   state.isLoading = false;
-  // console.log(action.error.message);
+  console.log(action.error.message);
   state.error = action.error.message;
 };
 
