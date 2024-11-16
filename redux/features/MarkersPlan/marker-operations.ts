@@ -1,21 +1,28 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { Marker, newMarkerData } from "./typesOrInterfaces";
+import {
+  deletingTaskType,
+  IReceivedMarker,
+  Marker,
+  Markers,
+  newMarkerData,
+} from "./typesOrInterfaces";
 
-export const getAllTasks = createAsyncThunk<Marker, void, { rejectValue: any }>(
-  "markers/getAll",
-  async (_, thunkAPI) => {
-    try {
-      const res = await axios.get("/plans/");
-      return res.data;
-    } catch (error: any) {
-      return thunkAPI.rejectWithValue(error.message);
-    }
+export const getAllTasks = createAsyncThunk<
+  Markers,
+  void,
+  { rejectValue: any }
+>("markers/getAll", async (_, thunkAPI) => {
+  try {
+    const res = await axios.get("/plans/");
+    return res.data;
+  } catch (error: any) {
+    return thunkAPI.rejectWithValue(error.message);
   }
-);
+});
 
 export const getTasksByDate = createAsyncThunk<
-  Marker,
+  Markers,
   { date: string },
   { rejectValue: any }
 >("markers/getByDate", async ({ date }, thunkAPI) => {
@@ -54,7 +61,7 @@ export const addTask = createAsyncThunk<
 });
 
 export const updateTask = createAsyncThunk<
-  Marker,
+  IReceivedMarker,
   { id: string | undefined; newMarkerData: newMarkerData }
 >("markers/updateMarker", async ({ id, newMarkerData }, thunkAPI) => {
   try {
@@ -66,12 +73,13 @@ export const updateTask = createAsyncThunk<
 });
 
 export const deleteMarker = createAsyncThunk<
-  void,
+  deletingTaskType,
   { id: string | undefined },
   { rejectValue: any }
 >("markers/delete", async ({ id }, thunkAPI) => {
   try {
     const res = await axios.delete(`/plans/${id}`);
+    console.log(res);
     return res.data;
   } catch (error: any) {
     return thunkAPI.rejectWithValue(error.message);

@@ -1,4 +1,10 @@
-import { createSlice, current, PayloadAction } from "@reduxjs/toolkit";
+import {
+  Action,
+  createSlice,
+  current,
+  PayloadAction,
+  SerializedError,
+} from "@reduxjs/toolkit";
 import {
   addTask,
   deleteMarker,
@@ -21,11 +27,15 @@ const handlePending = (state: IInitialState) => {
 
 const handleReject = (
   state: IInitialState,
-  action: PayloadAction<{ error: { message: string } | null }>
+  action: PayloadAction<
+    unknown,
+    string,
+    { arg: any; requestId: string; requestStatus: "rejected" },
+    SerializedError
+  >
 ) => {
   state.isLoading = false;
-
-  state.error = action.error.message;
+  state.error = action.error.message || "Unknown error occurred";
 };
 
 const markerSlice = createSlice({

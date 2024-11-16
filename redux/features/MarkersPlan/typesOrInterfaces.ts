@@ -11,6 +11,7 @@ export interface IReceivedMarker extends Marker {
     x: number;
     y: number;
   };
+  [key: string]: any;
 }
 
 export type IReceivedMarkers = Array<IReceivedMarker>;
@@ -29,4 +30,8 @@ export type newMarkerData = {
   date: string | null;
   x?: number;
   y?: number;
+};
+
+export type deletingTaskType = {
+  deletingTask: Marker;
 };

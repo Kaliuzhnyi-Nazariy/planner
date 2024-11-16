@@ -2,6 +2,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
   IRecieveToken,
+  IRefreshUser,
   logUser,
   newPasswordType,
   regUser,
@@ -124,7 +125,7 @@ export const deleteAccount = createAsyncThunk<void, void, { rejectValue: any }>(
 );
 
 export const refreshUser = createAsyncThunk<
-  regUser,
+  IRefreshUser,
   void,
   { rejectValue: any; state: IRecieveToken }
 >("auth/refresh", async (_, thunkAPI) => {

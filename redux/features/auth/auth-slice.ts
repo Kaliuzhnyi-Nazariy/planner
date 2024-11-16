@@ -54,7 +54,7 @@ const handleReject = (
   action: PayloadAction<IInitialStateWithError>
 ) => {
   state.isLoading = false;
-  state.error = action.error.message;
+  // state.error = action.error.message;
 };
 
 const authSlice = createSlice({
@@ -126,9 +126,9 @@ const authSlice = createSlice({
       .addCase(
         refreshUser.fulfilled,
         (state: initialStateType, action: PayloadAction<IRefreshUser>) => {
-          state.value.email = action.payload.email;
-          state.value.username = action.payload.username;
           state.value.id = action.payload._id;
+          state.value.username = action.payload.username;
+          state.value.email = action.payload.email;
           state.value.isAuth = true;
           state.isLoading = false;
         }
