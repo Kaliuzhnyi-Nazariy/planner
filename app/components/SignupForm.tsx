@@ -38,12 +38,11 @@ const SignupForm: React.FC = () => {
       .unwrap()
       .then(() => {
         toast.success("You signed up successfully!");
+        router.replace("/authorization/login");
       })
       .catch((err) => {
         toast.error(err);
       });
-
-    router.replace("/authorization/login");
   };
 
   return (
