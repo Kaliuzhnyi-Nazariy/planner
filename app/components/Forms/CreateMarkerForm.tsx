@@ -1,10 +1,12 @@
 "use client";
 
 import { addTask } from "@/redux/features/MarkersPlan/marker-operations";
+import { selectMarkerError } from "@/redux/features/MarkersPlan/selectors";
 import { useAppDispatch } from "@/redux/hooks";
 import { Formik, Field, Form, FormikHelpers } from "formik";
-import { useState } from "react";
+import { useEffect } from "react";
 import toast from "react-hot-toast";
+import { useSelector } from "react-redux";
 
 interface Values {
   titleOfMarker: string;
@@ -21,6 +23,7 @@ type Prop = {
 
 export const CreateMarkerForm = ({ onClose, position }: Prop) => {
   const dispatch = useAppDispatch();
+  const errorMarker = useSelector(selectMarkerError);
 
   const handleSubmitingForm = async (values: Values) => {
     const addTaskValues = {
@@ -31,8 +34,13 @@ export const CreateMarkerForm = ({ onClose, position }: Prop) => {
       y: position.yPos,
     };
     await dispatch(addTask(addTaskValues));
-    onClose();
-    toast.success("Marker created!");
+    if (errorMarker === null) {
+      toast.success("Marker created!");
+      onClose();
+    } else {
+      toast.error(errorMarker);
+      return;
+    }
   };
 
   return (
@@ -81,7 +89,7 @@ export const CreateMarkerForm = ({ onClose, position }: Prop) => {
               className="bg-transparent border-b-1 focus:border-b-black outline-none active:bg-transparent min-h-5 resize-y h-auto text-wrap break-words hyphens-auto"
               id="textOfTask"
               name="textOfTask"
-              placeholder="Today I should..."
+              placeholder="Today I should... (max 256 characters)"
             />
             <button
               type="submit"

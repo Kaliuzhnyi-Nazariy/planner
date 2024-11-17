@@ -9,7 +9,12 @@ import {
   updateAcc,
 } from "./auth-operations";
 
-import { createSlice, current, PayloadAction } from "@reduxjs/toolkit";
+import {
+  createSlice,
+  current,
+  PayloadAction,
+  SerializedError,
+} from "@reduxjs/toolkit";
 import { IRefreshUser, regUser, UpdatedUser, User } from "./typesOrInterfaces";
 
 interface IValue {
@@ -23,7 +28,7 @@ export type initialStateType = {
   value: IValue;
   token: String;
   isLoading: boolean;
-  error: null | { message: string };
+  error: null | string;
 };
 
 const initialState = {
@@ -38,12 +43,6 @@ const initialState = {
   error: null,
 } as initialStateType;
 
-export interface IInitialStateWithError {
-  error: {
-    message: string;
-  };
-}
-
 const handlePending = (state: initialStateType) => {
   state.isLoading = true;
   state.error = null;
@@ -51,10 +50,10 @@ const handlePending = (state: initialStateType) => {
 
 const handleReject = (
   state: initialStateType,
-  action: PayloadAction<IInitialStateWithError>
+  action: PayloadAction<string>
 ) => {
   state.isLoading = false;
-  // state.error = action.error.message;
+  state.error = action.payload || "Unknown error occurred";
 };
 
 const authSlice = createSlice({

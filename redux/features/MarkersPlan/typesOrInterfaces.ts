@@ -21,7 +21,7 @@ export type Markers = Array<Marker>;
 export interface IInitialState {
   tasks: Array<Marker>;
   isLoading: boolean;
-  error: string | null;
+  error: null | string;
 }
 
 export type newMarkerData = {

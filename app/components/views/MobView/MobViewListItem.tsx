@@ -28,7 +28,7 @@ const MobViewListItem = ({ task, onClickUpd, setInfoState }: Props) => {
       <h3 className="col-start-1 col-end-3 row-end-1 flex text-wrap break-words hyphens-auto sm:max-h-5 sm:overflow-hidden">
         <b className=" sm:max-h-5">{task.title}</b>
       </h3>
-      <p className="col-start-1 col-end-3 row-end-2 sm:col-end-5 flex text-wrap break-words hyphens-auto">
+      <p className="col-start-1 col-end-3 row-end-2 sm:col-end-5 text-wrap break-words hyphens-auto flow-root">
         {task.taskText}
       </p>
       <button
@@ -44,7 +44,6 @@ const MobViewListItem = ({ task, onClickUpd, setInfoState }: Props) => {
         onClick={() => {
           setInfoState(task);
           onClickUpd();
-          window.scrollY;
         }}
         className="col-start-4 row-span-4 sm:col-start-3 sm:col-end-4 sm:row-end-1 sm:row-auto flex justify-center items-center"
       >

@@ -22,5 +22,5 @@ export const selectUserEmail = (state: {
 export const selectUserIsLoading = (state: { auth: { isLoading: Boolean } }) =>
   state.auth.isLoading;
 
-export const selectUserError = (state: { auth: { error: String | null } }) =>
+export const selectUserError = (state: { auth: { error: string | null } }) =>
   state.auth.error;

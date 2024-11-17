@@ -28,7 +28,7 @@ type Prop = {
 
 export const UpdateMarkerForm = ({ onClose, info }: Prop) => {
   const dispatch = useAppDispatch();
-  const err = useSelector(selectMarkerError);
+  const errorMarker = useSelector(selectMarkerError);
 
   // useEffect(() => {
   // }, [err]);
@@ -67,12 +67,14 @@ export const UpdateMarkerForm = ({ onClose, info }: Prop) => {
       .unwrap()
       .then(() => {
         toast.success("Marker updated!");
+        onClose();
       })
       .catch((err) => {
-        toast.error(err);
+        toast.error(
+          errorMarker !== null ? errorMarker : "An unexpected error occurred"
+        );
         return;
       });
-    onClose();
   };
 
   return (
@@ -132,7 +134,7 @@ export const UpdateMarkerForm = ({ onClose, info }: Prop) => {
               className="bg-transparent border-b-1 focus:border-b-black outline-none text-wrap break-words hyphens-auto"
               id="textOfTask"
               name="textOfTask"
-              placeholder="Today I should..."
+              placeholder="Today I should... (max 256 characters)"
             />
 
             {/* add calendar */}

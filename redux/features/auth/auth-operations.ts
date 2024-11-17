@@ -32,7 +32,9 @@ export const register = createAsyncThunk<
     const res = await axios.post("/users/register", newUser);
     return res.data;
   } catch (error: any) {
-    return thunkAPI.rejectWithValue(error.message);
+    return thunkAPI.rejectWithValue(
+      error.response.data.message || error.message
+    );
   }
 });
 
@@ -44,7 +46,9 @@ export const login = createAsyncThunk<User, logUser, { rejectValue: any }>(
       setToken(res.data.token);
       return res.data;
     } catch (error: any) {
-      return thunkAPI.rejectWithValue(error.message);
+      return thunkAPI.rejectWithValue(
+        error.response.data.message || error.message
+      );
     }
   }
 );
@@ -58,7 +62,9 @@ export const resetPasswordReq = createAsyncThunk<
     const res = await axios.post("/users/forgotPassword", email);
     return res.data;
   } catch (error: any) {
-    return thunkApi.rejectWithValue(error.message);
+    return thunkApi.rejectWithValue(
+      error.response.data.message || error.message
+    );
   }
 });
 
@@ -76,7 +82,9 @@ export const resetPassword = createAsyncThunk<
       );
       return res.data;
     } catch (error: any) {
-      return thunkAPI.rejectWithValue(error.message);
+      return thunkAPI.rejectWithValue(
+        error.response.data.message || error.message
+      );
     }
   }
 );
@@ -92,7 +100,9 @@ export const updateAcc = createAsyncThunk<
       const res = await axios.put(`/users/${id}`, UpdatedUserData);
       return res.data;
     } catch (error: any) {
-      return thunkAPI.rejectWithValue(error.message);
+      return thunkAPI.rejectWithValue(
+        error.response.data.message || error.message
+      );
     }
   }
 );
@@ -107,7 +117,9 @@ export const logout = createAsyncThunk<
     clearToken();
     return res.data;
   } catch (error: any) {
-    return thunkAPI.rejectWithValue(error.message);
+    return thunkAPI.rejectWithValue(
+      error.response.data.message || error.message
+    );
   }
 });
 
@@ -118,7 +130,9 @@ export const deleteAccount = createAsyncThunk<void, void, { rejectValue: any }>(
       const res = await axios.delete("/users/");
       return res.data;
     } catch (error: any) {
-      return thunkApi.rejectWithValue(error.message);
+      return thunkApi.rejectWithValue(
+        error.response.data.message || error.message
+      );
     }
   }
 );
@@ -137,6 +151,8 @@ export const refreshUser = createAsyncThunk<
     const res = await axios.get("/users/current");
     return res.data;
   } catch (error: any) {
-    return thunkAPI.rejectWithValue(error.message);
+    return thunkAPI.rejectWithValue(
+      error.response.data.message || error.message
+    );
   }
 });

@@ -17,7 +17,9 @@ export const getAllTasks = createAsyncThunk<
     const res = await axios.get("/plans/");
     return res.data;
   } catch (error: any) {
-    return thunkAPI.rejectWithValue(error.message);
+    return thunkAPI.rejectWithValue(
+      error.response.data.message || error.message
+    );
   }
 });
 
@@ -30,7 +32,7 @@ export const getTasksByDate = createAsyncThunk<
     const res = await axios.get(`/plans/byDate/${date}`);
     return res.data;
   } catch (error: any) {
-    thunkAPI.rejectWithValue(error.message);
+    thunkAPI.rejectWithValue(error.response.data.message || error.message);
   }
 });
 
@@ -56,7 +58,9 @@ export const addTask = createAsyncThunk<
     const res = await axios.post("/plans/", newMarkerData);
     return res.data;
   } catch (error: any) {
-    return thunkAPI.rejectWithValue(error.message);
+    return thunkAPI.rejectWithValue(
+      error.response.data.message || error.message
+    );
   }
 });
 
@@ -68,7 +72,9 @@ export const updateTask = createAsyncThunk<
     const res = await axios.put(`/plans/${id}`, newMarkerData);
     return res.data;
   } catch (error: any) {
-    return thunkAPI.rejectWithValue(error.message);
+    return thunkAPI.rejectWithValue(
+      error.response.data.message || error.message
+    );
   }
 });
 
@@ -81,6 +87,8 @@ export const deleteMarker = createAsyncThunk<
     const res = await axios.delete(`/plans/${id}`);
     return res.data;
   } catch (error: any) {
-    return thunkAPI.rejectWithValue(error.message);
+    return thunkAPI.rejectWithValue(
+      error.response.data.message || error.message
+    );
   }
 });

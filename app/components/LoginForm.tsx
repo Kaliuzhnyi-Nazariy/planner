@@ -6,6 +6,7 @@ import FormView from "./FormView/FormView";
 import FormInput from "./FormInput/FormInput";
 import { useSelector } from "react-redux";
 import {
+  selectUserError,
   selectUserIsAuth,
   selectUserIsLoading,
 } from "@/redux/features/auth/selectors";
@@ -21,6 +22,7 @@ const LoginForm = () => {
   const dispatch = useAppDispatch();
   const isLoading = useSelector(selectUserIsLoading);
   const isAuth = useSelector(selectUserIsAuth);
+  const errorUser = useSelector(selectUserError);
 
   useEffect(() => {
     if (isAuth) {
@@ -35,7 +37,11 @@ const LoginForm = () => {
         toast.success("Welcome");
       })
       .catch((err) => {
-        toast.error(err);
+        toast.error(
+          errorUser !== null ? errorUser : "An unexpected error occurred"
+        );
+        return;
+        // toast.error(err);
       });
   };
 

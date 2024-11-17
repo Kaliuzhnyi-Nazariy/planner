@@ -27,15 +27,10 @@ const handlePending = (state: IInitialState) => {
 
 const handleReject = (
   state: IInitialState,
-  action: PayloadAction<
-    unknown,
-    string,
-    { arg: any; requestId: string; requestStatus: "rejected" },
-    SerializedError
-  >
+  action: PayloadAction<string | any>
 ) => {
   state.isLoading = false;
-  state.error = action.error.message || "Unknown error occurred";
+  state.error = action.payload || "Unknown error occurred";
 };
 
 const markerSlice = createSlice({
